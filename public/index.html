@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tekil Analiz ve Karar Desteği | Ağ Trafiği Sınıflandırma Sistemi</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32' fill='none'%3E%3Ccircle cx='10' cy='10' r='6.5' stroke='%2338BDF8' stroke-width='2'/%3E%3Cpath d='M14.6 14.6L20.5 20.5' stroke='%2338BDF8' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8' stroke='%2338BDF8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='6.2' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='6.8' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='13.2' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrapper">
+    <header class="header">
+        <div class="brand">
+            <div class="brand-title-wrap">
+                <svg class="brand-branch-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
+                    <circle cx="10" cy="10" r="6.5" stroke="#38BDF8" stroke-width="2"/>
+                    <path d="M14.6 14.6L20.5 20.5" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="6.2" r="1.3" fill="#38BDF8"/>
+                    <circle cx="6.8" cy="12.8" r="1.3" fill="#38BDF8"/>
+                    <circle cx="13.2" cy="12.8" r="1.3" fill="#38BDF8"/>
+                </svg>
+                <h1>Ağ Trafiği Sınıflandırma Sistemi</h1>
+            </div>
+            <p>Açıklanabilir Karar Ağacı ile Güvenlik Analizi</p>
+        </div>
+        <nav class="nav-links">
+            <a class="nav-link active" href="/index.html">Tekil Analiz</a>
+            <a class="nav-link" href="/batch.html">CSV Toplu Analiz</a>
+            <a class="nav-link" href="/logs.html">Log ve Karantina Kayıtları</a>
+        </nav>
+    </header>
+
+    <section class="two-col">
+        <!-- SOL PANEL: VERİ GİRİŞİ & SENARYO SEÇİMİ -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Ağ Akışı Parametreleri</h2>
+            </div>
+
+            <!-- Hızlı Senaryo Seçimi -->
+            <div class="presets-wrap">
+                <div class="presets">
+                    <button type="button" class="preset-btn" data-preset="ddos" onclick="applyPreset('ddos')">DDoS / Flood</button>
+                    <button type="button" class="preset-btn" data-preset="bruteforce" onclick="applyPreset('bruteforce')">Kaba Kuvvet (Brute-Force)</button>
+                    <button type="button" class="preset-btn" data-preset="portscan" onclick="applyPreset('portscan')">Port Taraması</button>
+                    <button type="button" class="preset-btn" data-preset="exfil" onclick="applyPreset('exfil')">Veri Sızdırma</button>
+                    <button type="button" class="preset-btn active" data-preset="normal" onclick="applyPreset('normal')">Normal Trafik</button>
+                </div>
+            </div>
+
+            <!-- Temel Veri Giriş Alanları -->
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="sourceIp">Kaynak IP Adresi</label>
+                    <input type="text" id="sourceIp" value="192.168.1.24" placeholder="192.168.1.24">
+                </div>
+                <div class="form-group">
+                    <label for="requestRate">İstek Hızı (req/s)</label>
+                    <input type="number" id="requestRate" value="12" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="packetSize">Paket Boyutu (Byte)</label>
+                    <input type="number" id="packetSize" value="540" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="duration">Bağlantı Süresi (sn)</label>
+                    <input type="number" step="0.05" id="duration" value="1.6" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="isKnownPort">Port Türü</label>
+                    <select id="isKnownPort">
+                        <option value="true" selected>Standart Port</option>
+                        <option value="false">Bilinmeyen Port</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="failedLogins">Başarısız Giriş Sayısı</label>
+                    <input type="number" id="failedLogins" value="0" min="0">
+                </div>
+            </div>
+
+            <!-- Varsayılan Eşik Değerleri (Gizli) -->
+            <input type="hidden" id="packetThreshold" value="1500">
+            <input type="hidden" id="failedLoginThreshold" value="3">
+            <input type="hidden" id="requestRateThreshold" value="80">
+
+            <!-- Ana İşlem Butonları -->
+            <div class="actions-bar" style="margin-top:22px; display:flex; flex-wrap:wrap; gap:12px;">
+                <button type="button" class="btn-primary" style="flex: 1 1 200px;" onclick="analyzeTraffic()">
+                    Analiz Et
+                </button>
+                <button type="button" class="btn-danger" id="btnQuarantineMain" style="flex: 0 1 auto;" onclick="quarantineCurrentIp()">
+                    IP'yi Karantinaya Al
+                </button>
+            </div>
+        </div>
+
+        <!-- SAĞ PANEL: KARAR AÇIKLAMASI & ANALİZ DETAYI -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Karar Açıklaması ve Analiz Detayı</h2>
+            </div>
+
+            <div id="emptyState" class="empty-state">
+                <h3 style="font-size:1.05rem; margin-bottom:6px; color:#ffffff;">Analiz Bekleniyor</h3>
+                <p style="font-size:0.86rem; max-width:440px; color:var(--text-muted);">
+                    Bir test senaryosu seçin veya parametreleri girerek <strong>Analiz Et</strong> butonuna tıklayın.
+                </p>
+            </div>
+
+            <div id="resultArea" style="display:none;">
+                <!-- Sonuç Banner'ı -->
+                <div id="resultBanner" class="result-banner banner-low">
+                    <div>
+                        <div class="result-banner-label">Sınıflandırma Kararı</div>
+                        <div id="resType" class="result-banner-title">-</div>
+                    </div>
+                    <span id="resRisk" class="risk-badge badge-low">-</span>
+                </div>
+
+                <!-- 4'lü Önemli Metrik Kutuları -->
+                <div class="metrics-grid-4">
+                    <div class="mini-box">
+                        <div class="mini-box-label">Risk Skoru</div>
+                        <div class="mini-box-val" id="resScore">-</div>
+                    </div>
+                    <div class="mini-box">
+                        <div class="mini-box-label">Model Karar Güveni</div>
+                        <div class="mini-box-val" id="resConfidence">-</div>
+                        <div id="resStabilitySub" style="font-size:0.73rem; color:var(--text-muted); margin-top:3px; font-family:'JetBrains Mono',monospace;">Kararlılık: -</div>
+                    </div>
+                    <div class="mini-box">
+                        <div class="mini-box-label">Ağ Kapsamı</div>
+                        <div class="mini-box-val" style="font-size:0.88rem;" id="resScope">-</div>
+                    </div>
+                    <div class="mini-box">
+                        <div class="mini-box-label">Karantina Durumu</div>
+                        <div class="mini-box-val" style="font-size:0.88rem;" id="resQuarantineStatus">-</div>
+                    </div>
+                </div>
+
+                <!-- SOC Önerisi -->
+                <div class="recommendation-box">
+                    <div class="section-label">Önerilen Güvenlik Müdahalesi</div>
+                    <div id="resRecommendation" style="line-height:1.55;">-</div>
+                </div>
+
+                <!-- İzlenen Karar Yolu -->
+                <div style="margin-top:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
+                        <div class="section-label" style="margin-bottom:0;">İzlenen Karar Yolu</div>
+                        <div id="resBoundaryNote" style="font-size:0.76rem; font-family:'JetBrains Mono',monospace; color:var(--text-secondary);">-</div>
+                    </div>
+                    <div id="resPath"></div>
+                </div>
+
+                <!-- Özellik Etki Dağılımı -->
+                <div style="margin-top:24px;">
+                    <div class="section-label" style="color:var(--accent-emerald);">
+                        Özellik Etki Dağılımı (Katkı Analizi)
+                    </div>
+                    <div id="resFeatureAttribution" class="fa-list"></div>
+                </div>
+
+                <!-- Alternatif Karar Koşulları (Karşı-Olgusal Senaryolar) -->
+                <div style="margin-top:24px;">
+                    <div class="section-label" style="color:var(--accent-amber);">
+                        Alternatif Karar Koşulları (Karşı-Olgusal)
+                    </div>
+                    <div id="resCounterfactuals" class="cf-list"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SİSTEM KARAR KURALLARI REFERANS TABLOSU -->
+    <details class="rules-reference-details">
+        <summary class="rules-reference-summary">
+            <span>Sistem Karar Kuralları ve Mantıksal Eşikler</span>
+            <span style="font-size:0.78rem; color:var(--text-muted); font-weight:500;">İncele ▾</span>
+        </summary>
+        <div class="rules-reference-body">
+            <div class="table-wrap">
+                <table class="rules-table">
+                    <thead>
+                        <tr>
+                            <th style="width:70px;">Öncelik</th>
+                            <th>Değerlendirilen Koşul</th>
+                            <th>Sınıflandırma Sonucu</th>
+                            <th style="width:110px;">Varsayılan Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Kaynak IP adresi karantina listesinde kayıtlı</td>
+                            <td>Karantina Müdahalesi</td>
+                            <td><span class="risk-badge badge-high">Yüksek</span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Paket Boyutu &gt; 1500 B ve Bağlantı Süresi &lt; 0.5 sn ve İstek Hızı &ge; 80 req/s</td>
+                            <td>DDoS / Flood Saldırısı</td>
+                            <td><span class="risk-badge badge-high">Yüksek</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Paket Boyutu &gt; 1500 B ve Bağlantı Süresi &lt; 0.5 sn ve İstek Hızı &lt; 80 req/s</td>
+                            <td>Şüpheli Yüksek Hızlı Paket Akışı</td>
+                            <td><span class="risk-badge badge-med">Orta</span></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Paket Boyutu &gt; 1500 B ve Bağlantı Süresi &ge; 0.5 sn ve Bilinmeyen Port</td>
+                            <td>Veri Sızdırma / Şüpheli Transfer</td>
+                            <td><span class="risk-badge badge-high">Yüksek</span></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Paket Boyutu &gt; 1500 B ve Bağlantı Süresi &ge; 0.5 sn ve Standart Port</td>
+                            <td>Büyük Veri Transferi (Yedekleme vb.)</td>
+                            <td><span class="risk-badge badge-med">Orta</span></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Bilinmeyen Port ve Hatalı Giriş &gt; 3</td>
+                            <td>Kaba Kuvvet (Brute-Force) Saldırısı</td>
+                            <td><span class="risk-badge badge-high">Yüksek</span></td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Bilinmeyen Port ve Paket Boyutu &lt; 200 B ve Bağlantı Süresi &lt; 0.2 sn</td>
+                            <td>Port Taraması ve Keşif Aktivitesi</td>
+                            <td><span class="risk-badge badge-med">Orta</span></td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Standart Port ve Hatalı Giriş &gt; 3</td>
+                            <td>Kimlik Doğrulama Anomalisi</td>
+                            <td><span class="risk-badge badge-med">Orta</span></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Tüm metrikler güvenlik eşik sınırlarının altında</td>
+                            <td>Normal Trafik</td>
+                            <td><span class="risk-badge badge-low">Düşük</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </details>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

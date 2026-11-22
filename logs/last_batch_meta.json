@@ -1,0 +1,8 @@
+{
+  "totalLinesRead": 1,
+  "validRowsProcessed": 1,
+  "skippedRowsCount": 0,
+  "datasetName": "UNSW-NB15",
+  "schemaMappingSummary": "Şema Eşleme: UNSW-NB15 (srcip -> Kaynak IP, sbytes -> Paket Boyutu, dur -> Süre, rate -> İstek Hızı...)",
+  "lastAnalyzedAt": "2026-11-21T23:56:29.555Z"
+}

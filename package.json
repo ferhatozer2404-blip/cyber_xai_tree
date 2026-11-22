@@ -1,0 +1,14 @@
+{
+  "name": "cyber-xai-tree",
+  "version": "2.0.0",
+  "description": "Aciklanabilir Karar Agaclari (XAI) ile Siber Saldiri Siniflandirma ve SOC Karar Destek Sistemi",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "csv-parser": "^3.0.0",
+    "express": "^4.21.2"
+  }
+}

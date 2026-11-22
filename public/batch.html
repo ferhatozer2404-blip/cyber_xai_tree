@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Toplu Analiz | Ağ Trafiği Sınıflandırma Sistemi</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32' fill='none'%3E%3Ccircle cx='10' cy='10' r='6.5' stroke='%2338BDF8' stroke-width='2'/%3E%3Cpath d='M14.6 14.6L20.5 20.5' stroke='%2338BDF8' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8' stroke='%2338BDF8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='6.2' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='6.8' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='13.2' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrapper">
+    <header class="header">
+        <div class="brand">
+            <div class="brand-title-wrap">
+                <svg class="brand-branch-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
+                    <circle cx="10" cy="10" r="6.5" stroke="#38BDF8" stroke-width="2"/>
+                    <path d="M14.6 14.6L20.5 20.5" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="6.2" r="1.3" fill="#38BDF8"/>
+                    <circle cx="6.8" cy="12.8" r="1.3" fill="#38BDF8"/>
+                    <circle cx="13.2" cy="12.8" r="1.3" fill="#38BDF8"/>
+                </svg>
+                <h1>Ağ Trafiği Sınıflandırma Sistemi</h1>
+            </div>
+            <p>Toplu CSV Trafik Analizi ve Model Doğrulama Değerlendirmesi</p>
+        </div>
+        <nav class="nav-links">
+            <a class="nav-link" href="/index.html">Tekil Analiz</a>
+            <a class="nav-link active" href="/batch.html">CSV Toplu Analiz</a>
+            <a class="nav-link" href="/logs.html">Log ve Karantina Kayıtları</a>
+        </nav>
+    </header>
+
+    <section class="card">
+        <div class="card-header">
+            <h2 class="card-title">CSV Toplu Trafik Analizi</h2>
+        </div>
+
+        <!-- SADE VERİ GİRİŞ ALANI & ANA İŞLEM BUTONLARI -->
+        <div class="upload-zone" id="uploadZone">
+            <div class="upload-zone-left">
+                <div>
+                    <div style="font-weight:700; font-size:0.94rem; color:#ffffff;">CSV Dosyası Yükle</div>
+                    <div class="upload-filename" id="selectedFileName">Dosya seçin veya buraya sürükleyin</div>
+                </div>
+            </div>
+            <div class="upload-zone-actions" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <input type="file" id="csvFileInput" accept=".csv" style="display:none;" onchange="handleFileSelected(this)">
+                <button type="button" class="btn-outline" onclick="document.getElementById('csvFileInput').click()">
+                    Dosya Seç
+                </button>
+                <button type="button" class="btn-emerald" onclick="uploadAndAnalyzeCSV()">
+                    Analiz Et
+                </button>
+            </div>
+        </div>
+
+        <!-- İsteğe Bağlı Manuel Metin Girişi -->
+        <details class="csv-raw-details" id="csvDetailsWrap" open>
+            <summary class="csv-raw-summary">CSV Metnini Elle Yapıştırın</summary>
+            <div style="margin-top:10px;">
+                <div class="csv-format-guide">
+                    <span style="font-weight:700; color:var(--text-primary);">Beklenen Format Rehberi:</span>
+                    <span style="color:#38bdf8;">Kaynak IP, Paket Boyutu, Süre, Bilinen Port, Hatalı Giriş, İstek Hızı, Gerçek Etiket (opsiyonel)</span>
+                    <div style="font-size:0.75rem; color:var(--text-muted); margin-top:3px;">
+                        Sütun ayrımı için virgül (<strong>,</strong>), ondalık sayılar için nokta (<strong>.</strong>) kullanın (Örn: Süre: <strong>0.5</strong>, Port: <strong>Evet/Hayır</strong> veya <strong>true/false</strong>).
+                    </div>
+                </div>
+                <textarea id="csvRawInput" rows="5" placeholder="Kaynak IP, Paket Boyutu, Süre, Bilinen Port, Hatalı Giriş, İstek Hızı
+185.220.101.42, 2450, 0.1, true, 0, 140
+91.132.44.19, 420, 6.5, false, 8, 25
+192.168.1.24, 540, 1.6, true, 0, 12"></textarea>
+            </div>
+        </details>
+
+        <!-- Varsayılan Eşik Değerleri (Gizli) -->
+        <input type="hidden" id="packetThreshold" value="1500">
+        <input type="hidden" id="failedLoginThreshold" value="3">
+        <input type="hidden" id="requestRateThreshold" value="80">
+
+        <!-- ANALİZ SONUÇLARI ALANI -->
+        <div id="csvResultArea" style="display:none; margin-top:28px;">
+            <!-- VERİ KALİTESİ, ŞEMA EŞLEME VE DAĞILIM FARKI (DRIFT) ÖZETİ -->
+            <div id="dataQualityBox" class="data-quality-box" style="margin-bottom:18px;">
+                <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <div style="font-size:0.84rem; color:var(--text-primary);">
+                            <strong>Veri Kalitesi:</strong> <span id="dataQualityText">Tüm satırlar başarıyla okundu.</span>
+                        </div>
+                        <div class="data-quality-pills" id="dataQualityPills"></div>
+                    </div>
+                    <div id="schemaMappingText" style="font-size:0.77rem; color:#38bdf8; font-family:'JetBrains Mono',monospace;">
+                        Şema Eşleme: Standart Şema
+                    </div>
+                    <div id="driftSummaryText" style="font-size:0.77rem; color:var(--text-secondary); font-family:'JetBrains Mono',monospace;">
+                        Dağılım Farkı: Analiz bekleniyor.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ETİKETLİ VERİ SETİ DOĞRULAMA KARTI (Accuracy, Macro-F1, Weighted-F1) -->
+            <div id="evalBox" class="academic-eval-box" style="display:none;">
+                <div class="academic-eval-header">
+                    <div>
+                        <div class="academic-eval-title">
+                            Akademik Model Performansı ve Doğrulama Metrikleri
+                        </div>
+                        <div id="evalDetail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">-</div>
+                    </div>
+                </div>
+
+                <!-- 4'lü Genel Metrikler -->
+                <div class="eval-academic-grid">
+                    <div class="eval-metric-box">
+                        <div class="eval-metric-name">Genel Doğruluk (Accuracy)</div>
+                        <div class="eval-metric-val" id="evalAccuracy">%0.0</div>
+                    </div>
+                    <div class="eval-metric-box">
+                        <div class="eval-metric-name">Macro-F1 Skoru</div>
+                        <div class="eval-metric-val" style="color:#38bdf8;" id="evalMacroF1">%0.0</div>
+                    </div>
+                    <div class="eval-metric-box">
+                        <div class="eval-metric-name">Weighted-F1 Skoru</div>
+                        <div class="eval-metric-val" style="color:#a78bfa;" id="evalWeightedF1">%0.0</div>
+                    </div>
+                    <div class="eval-metric-box">
+                        <div class="eval-metric-name">Macro-Kesinlik (Precision)</div>
+                        <div class="eval-metric-val" style="color:#34d399;" id="evalPrecision">%0.0</div>
+                    </div>
+                </div>
+
+                <!-- Güvenlik Kritik Yanlış Negatif & Yanlış Pozitif Özeti -->
+                <div class="security-eval-grid" style="margin-top:16px;">
+                    <div class="security-eval-card card-fn">
+                        <div class="security-eval-title">Yanlış Negatif (FN - Kritik Kaçırılan Saldırı)</div>
+                        <div class="security-eval-val" id="evalFnCount">0</div>
+                        <div class="security-eval-desc" id="evalFnDesc">Gerçekte saldırı olup modelin "Normal" dediği akış sayısı.</div>
+                    </div>
+                    <div class="security-eval-card card-fp">
+                        <div class="security-eval-title">Yanlış Pozitif (FP - Yanlış Alarm)</div>
+                        <div class="security-eval-val" id="evalFpCount">0</div>
+                        <div class="security-eval-desc" id="evalFpDesc">Normal trafiğin yanlışlıkla saldırı olarak işaretlenmesi.</div>
+                    </div>
+                </div>
+
+                <!-- Sınıf Bazlı Performans Metrikleri Tablosu -->
+                <div style="margin-top:20px;">
+                    <div class="section-label" style="color:var(--accent-cyan);">Sınıf Bazlı Kesinlik, Duyarlılık ve F1 Tablosu</div>
+                    <div class="table-wrap">
+                        <table class="class-metrics-table">
+                            <thead>
+                                <tr>
+                                    <th>Saldırı / Trafik Sınıfı</th>
+                                    <th>Örnek Sayısı (Support)</th>
+                                    <th>Kesinlik (Precision)</th>
+                                    <th>Duyarlılık (Recall)</th>
+                                    <th>F1-Skoru</th>
+                                </tr>
+                            </thead>
+                            <tbody id="evalClassMetricsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Karışıklık Matrisi (Confusion Matrix) Tablosu -->
+                <div style="margin-top:22px;">
+                    <div class="section-label" style="color:var(--accent-blue);">Karışıklık Matrisi (Confusion Matrix - Gerçek vs Tahmin)</div>
+                    <div class="table-wrap" id="confusionMatrixWrap"></div>
+                </div>
+            </div>
+
+            <!-- ÖZET İSTATİSTİK KARTLARI (SUMMARY CARDS) -->
+            <div class="stats-grid" style="margin-top:20px;">
+                <div class="stat-card stat-card-total">
+                    <div class="stat-header">
+                        <span class="stat-label">Toplam Akış Kaydı</span>
+                    </div>
+                    <div class="stat-value" id="batchTotal">0</div>
+                </div>
+                <div class="stat-card stat-card-high">
+                    <div class="stat-header">
+                        <span class="stat-label">Yüksek Risk</span>
+                    </div>
+                    <div class="stat-value" style="color:#fb7185;" id="batchHigh">0</div>
+                </div>
+                <div class="stat-card stat-card-med">
+                    <div class="stat-header">
+                        <span class="stat-label">Orta Risk</span>
+                    </div>
+                    <div class="stat-value" style="color:#fbbf24;" id="batchMed">0</div>
+                </div>
+                <div class="stat-card stat-card-low">
+                    <div class="stat-header">
+                        <span class="stat-label">Normal Trafik</span>
+                    </div>
+                    <div class="stat-value" style="color:#34d399;" id="batchLow">0</div>
+                </div>
+            </div>
+
+            <!-- SINIF DAĞILIMI TABLOSU -->
+            <div style="margin-top:20px; margin-bottom:24px;">
+                <div class="section-label" style="color:var(--accent-cyan);">
+                    Trafik Sınıf Dağılımı
+                </div>
+                <div class="table-wrap dist-table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tespit Edilen Sınıf</th>
+                                <th>Kayıt Adedi</th>
+                                <th>Dağılım Oranı (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchClassDistTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TABLO BAŞLIĞI VE CSV İNDİRME -->
+            <div class="card-header" style="margin-top:24px;">
+                <h3 class="card-title">Toplu Sınıflandırma Tablosu</h3>
+                <button type="button" class="btn-outline" onclick="exportBatchResultsCSV()">
+                    Sonuçları CSV Olarak İndir
+                </button>
+            </div>
+
+            <!-- TABLO GÖVDESİ -->
+            <div class="table-wrap">
+                <table class="batch-results-table">
+                    <thead>
+                        <tr>
+                            <th>Kaynak IP</th>
+                            <th>Ağ Türü</th>
+                            <th>Paket Boyutu</th>
+                            <th>Süre</th>
+                            <th>Port Türü</th>
+                            <th>Hatalı Giriş</th>
+                            <th>İstek Hızı</th>
+                            <th>Tahmin Sınıfı</th>
+                            <th>Gerçek Etiket</th>
+                            <th>Risk Skoru</th>
+                            <th>Risk</th>
+                            <th class="col-action">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="csvTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="/app.js"></script>
+<script>
+    function handleFileSelected(input) {
+        const nameEl = document.getElementById('selectedFileName');
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            const sizeKb = (file.size / 1024).toFixed(1);
+            nameEl.innerHTML = `Seçilen: <strong style="color:var(--accent-cyan);">${file.name}</strong> (${sizeKb} KB)`;
+            showToast(`"${file.name}" dosyası seçildi.`, 'info', 'Dosya Hazır');
+        } else {
+            nameEl.innerText = 'Dosya seçin veya buraya sürükleyin';
+        }
+    }
+
+    // Sürükle Bırak Desteği
+    const dropZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('csvFileInput');
+
+    if (dropZone && fileInput) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+            });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelected(fileInput);
+            }
+        });
+    }
+</script>
+</body>
+</html>

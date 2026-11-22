@@ -1,0 +1,12 @@
+[
+  {
+    "ip": "185.220.101.42",
+    "reason": "Manuel SOC Karantina",
+    "addedAt": "2026-11-21T22:55:14.899Z"
+  },
+  {
+    "ip": "172.16.0.4",
+    "reason": "Normal Trafik",
+    "addedAt": "2026-11-21T22:27:38.478Z"
+  }
+]
