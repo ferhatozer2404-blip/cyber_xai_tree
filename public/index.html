@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tekil Analiz ve Karar Desteği | Ağ Trafiği Sınıflandırma Sistemi</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32' fill='none'%3E%3Ccircle cx='10' cy='10' r='6.5' stroke='%2338BDF8' stroke-width='2'/%3E%3Cpath d='M14.6 14.6L20.5 20.5' stroke='%2338BDF8' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8' stroke='%2338BDF8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='6.2' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='6.8' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='13.2' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32' fill='none'%3E%3Ccircle cx='10' cy='10' r='6.5' stroke='%233b82f6' stroke-width='2'/%3E%3Cpath d='M14.6 14.6L20.5 20.5' stroke='%233b82f6' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8' stroke='%233b82f6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='6.2' r='1.3' fill='%233b82f6'/%3E%3Ccircle cx='6.8' cy='12.8' r='1.3' fill='%233b82f6'/%3E%3Ccircle cx='13.2' cy='12.8' r='1.3' fill='%233b82f6'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -13,12 +13,12 @@
         <div class="brand">
             <div class="brand-title-wrap">
                 <svg class="brand-branch-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
-                    <circle cx="10" cy="10" r="6.5" stroke="#38BDF8" stroke-width="2"/>
-                    <path d="M14.6 14.6L20.5 20.5" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="10" cy="6.2" r="1.3" fill="#38BDF8"/>
-                    <circle cx="6.8" cy="12.8" r="1.3" fill="#38BDF8"/>
-                    <circle cx="13.2" cy="12.8" r="1.3" fill="#38BDF8"/>
+                    <circle cx="10" cy="10" r="6.5" stroke="#3b82f6" stroke-width="2"/>
+                    <path d="M14.6 14.6L20.5 20.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8" stroke="#3b82f6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="6.2" r="1.3" fill="#3b82f6"/>
+                    <circle cx="6.8" cy="12.8" r="1.3" fill="#3b82f6"/>
+                    <circle cx="13.2" cy="12.8" r="1.3" fill="#3b82f6"/>
                 </svg>
                 <h1>Ağ Trafiği Sınıflandırma Sistemi</h1>
             </div>
@@ -86,8 +86,8 @@
             <input type="hidden" id="requestRateThreshold" value="80">
 
             <!-- Ana İşlem Butonları -->
-            <div class="actions-bar" style="margin-top:22px; display:flex; flex-wrap:wrap; gap:12px;">
-                <button type="button" class="btn-primary" style="flex: 1 1 200px;" onclick="analyzeTraffic()">
+            <div class="actions-bar" style="margin-top:20px; display:flex; flex-wrap:wrap; gap:10px;">
+                <button type="button" class="btn-primary" style="flex: 1 1 180px;" onclick="analyzeTraffic()">
                     Analiz Et
                 </button>
                 <button type="button" class="btn-danger" id="btnQuarantineMain" style="flex: 0 1 auto;" onclick="quarantineCurrentIp()">
@@ -96,91 +96,353 @@
             </div>
         </div>
 
-        <!-- SAĞ PANEL: KARAR AÇIKLAMASI & ANALİZ DETAYI -->
+        <!-- SAĞ PANEL: KARAR AÇIKLAMASI & ÖZET METRİKLER -->
         <div class="card">
             <div class="card-header">
-                <h2 class="card-title">Karar Açıklaması ve Analiz Detayı</h2>
+                <h2 class="card-title">Karar Açıklaması ve Özet Metrikler</h2>
             </div>
 
-            <div id="emptyState" class="empty-state">
-                <h3 style="font-size:1.05rem; margin-bottom:6px; color:#ffffff;">Analiz Bekleniyor</h3>
-                <p style="font-size:0.86rem; max-width:440px; color:var(--text-muted);">
+            <div id="emptyState" class="empty-state" style="display:none;">
+                <h3 style="font-size:1rem; margin-bottom:6px; color:#ffffff;">Analiz Bekleniyor</h3>
+                <p style="font-size:0.84rem; max-width:440px; color:var(--text-muted);">
                     Bir test senaryosu seçin veya parametreleri girerek <strong>Analiz Et</strong> butonuna tıklayın.
                 </p>
             </div>
 
-            <div id="resultArea" style="display:none;">
+            <div id="resultArea" style="display:block;">
                 <!-- Sonuç Banner'ı -->
                 <div id="resultBanner" class="result-banner banner-low">
                     <div>
                         <div class="result-banner-label">Sınıflandırma Kararı</div>
-                        <div id="resType" class="result-banner-title">-</div>
+                        <div id="resType" class="result-banner-title">Normal Trafik</div>
                     </div>
-                    <span id="resRisk" class="risk-badge badge-low">-</span>
+                    <span id="resRisk" class="risk-badge badge-low">Düşük Risk</span>
                 </div>
 
                 <!-- 4'lü Önemli Metrik Kutuları -->
                 <div class="metrics-grid-4">
                     <div class="mini-box">
                         <div class="mini-box-label">Risk Skoru</div>
-                        <div class="mini-box-val" id="resScore">-</div>
+                        <div class="mini-box-val" id="resScore">18 / 100</div>
                     </div>
                     <div class="mini-box">
                         <div class="mini-box-label">Model Karar Güveni</div>
-                        <div class="mini-box-val" id="resConfidence">-</div>
-                        <div id="resStabilitySub" style="font-size:0.73rem; color:var(--text-muted); margin-top:3px; font-family:'JetBrains Mono',monospace;">Kararlılık: -</div>
+                        <div class="mini-box-val" id="resConfidence">%94</div>
+                        <div id="resStabilitySub" style="font-size:0.72rem; color:var(--text-muted); margin-top:3px; font-family:'JetBrains Mono',monospace;">Kararlılık: Yüksek (%82)</div>
                     </div>
                     <div class="mini-box">
                         <div class="mini-box-label">Ağ Kapsamı</div>
-                        <div class="mini-box-val" style="font-size:0.88rem;" id="resScope">-</div>
+                        <div class="mini-box-val" style="font-size:0.85rem;" id="resScope"><span class="scope-badge scope-private">İç Ağ (RFC 1918)</span></div>
                     </div>
                     <div class="mini-box">
                         <div class="mini-box-label">Karantina Durumu</div>
-                        <div class="mini-box-val" style="font-size:0.88rem;" id="resQuarantineStatus">-</div>
+                        <div class="mini-box-val" style="font-size:0.85rem;" id="resQuarantineStatus"><span style="color:#16a34a; font-weight:600;">Aktif / Listede Değil</span></div>
                     </div>
                 </div>
 
                 <!-- SOC Önerisi -->
                 <div class="recommendation-box">
                     <div class="section-label">Önerilen Güvenlik Müdahalesi</div>
-                    <div id="resRecommendation" style="line-height:1.55;">-</div>
-                </div>
-
-                <!-- İzlenen Karar Yolu -->
-                <div style="margin-top:20px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
-                        <div class="section-label" style="margin-bottom:0;">İzlenen Karar Yolu</div>
-                        <div id="resBoundaryNote" style="font-size:0.76rem; font-family:'JetBrains Mono',monospace; color:var(--text-secondary);">-</div>
-                    </div>
-                    <div id="resPath"></div>
-                </div>
-
-                <!-- Özellik Etki Dağılımı -->
-                <div style="margin-top:24px;">
-                    <div class="section-label" style="color:var(--accent-emerald);">
-                        Özellik Etki Dağılımı (Katkı Analizi)
-                    </div>
-                    <div id="resFeatureAttribution" class="fa-list"></div>
-                </div>
-
-                <!-- Alternatif Karar Koşulları (Karşı-Olgusal Senaryolar) -->
-                <div style="margin-top:24px;">
-                    <div class="section-label" style="color:var(--accent-amber);">
-                        Alternatif Karar Koşulları (Karşı-Olgusal)
-                    </div>
-                    <div id="resCounterfactuals" class="cf-list"></div>
+                    <div id="resRecommendation" style="line-height:1.5;">Trafik akışı standart kurumsal ağ profiline uygundur. Güvenlik müdahalesine gerek yoktur.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SİSTEM KARAR KURALLARI REFERANS TABLOSU -->
-    <details class="rules-reference-details">
-        <summary class="rules-reference-summary">
-            <span>Sistem Karar Kuralları ve Mantıksal Eşikler</span>
-            <span style="font-size:0.78rem; color:var(--text-muted); font-weight:500;">İncele ▾</span>
-        </summary>
-        <div class="rules-reference-body">
+    <!-- ALT BİRLEŞİK KONSOL: 4 ALT SEKME (KOMPAKT MÜHENDİSLİK PANELİ) -->
+    <div class="card console-card" data-tab-group="single-analysis" style="margin-top:20px;">
+        <div class="console-tab-bar">
+            <button type="button" class="console-tab-btn active" data-tab-target="tabSinglePath" onclick="switchConsoleTab('single-analysis', 'tabSinglePath')">Karar Yolu &amp; Karşı-Olgusal</button>
+            <button type="button" class="console-tab-btn" data-tab-target="tabSingleTree" onclick="switchConsoleTab('single-analysis', 'tabSingleTree')">Karar Ağacı Topolojisi</button>
+            <button type="button" class="console-tab-btn" data-tab-target="tabSingleShap" onclick="switchConsoleTab('single-analysis', 'tabSingleShap')">Öznitelik Katkısı (SHAP)</button>
+            <button type="button" class="console-tab-btn" data-tab-target="tabSingleRules" onclick="switchConsoleTab('single-analysis', 'tabSingleRules')">Model Kural Tablosu</button>
+        </div>
+
+        <!-- 1. SEKME: KARAR YOLU, ETKİ DAĞILIMI VE KARŞI-OLGUSAL -->
+        <div class="console-tab-pane active" id="tabSinglePath">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+                <div class="section-label" style="margin-bottom:0;">İzlenen Karar Yolu Adımları</div>
+                <div id="resBoundaryNote" style="font-size:0.75rem; font-family:'JetBrains Mono',monospace; color:var(--text-secondary);">Sınır Duyarlılığı: %82.0 mesafe (Yüksek Kararlılık)</div>
+            </div>
+
+            <!-- Karar Yolu Adım Kartları -->
+            <div id="resPath">
+                <div class="tree-flow-wrap">
+                    <div class="tree-step-card">
+                        <div class="tree-step-header">
+                            <div class="tree-step-badge">KÖK KONTROLÜ</div>
+                            <span class="branch-badge branch-badge-no">Sağlanmadı</span>
+                        </div>
+                        <div class="tree-step-rule"><strong>Koşul:</strong> Paket Boyutu &gt; 1500 Byte</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">Girdi: <code>540 B</code> | Eşik: <code>1500 B</code></div>
+                    </div>
+                    <div class="tree-connector"><span class="tree-connector-line"></span></div>
+                    <div class="tree-step-card">
+                        <div class="tree-step-header">
+                            <div class="tree-step-badge">GİRİŞ ANOMALİSİ</div>
+                            <span class="branch-badge branch-badge-no">Sağlanmadı</span>
+                        </div>
+                        <div class="tree-step-rule"><strong>Koşul:</strong> Bilinmeyen Port ve Hatalı Giriş &gt; 3</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">Girdi: <code>0</code> | Eşik: <code>&gt; 3</code></div>
+                    </div>
+                    <div class="tree-connector"><span class="tree-connector-line"></span></div>
+                    <div class="tree-step-card">
+                        <div class="tree-step-header">
+                            <div class="tree-step-badge">PORT KEŞİF KONTROLÜ</div>
+                            <span class="branch-badge branch-badge-no">Sağlanmadı</span>
+                        </div>
+                        <div class="tree-step-rule"><strong>Koşul:</strong> Port Keşif İmzası (&lt; 200B, &lt; 0.2s)</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">Girdi: <code>540 B, 1.6 sn</code> | Eşik: <code>&lt; 200 B</code></div>
+                    </div>
+                    <div class="tree-connector"><span class="tree-connector-line"></span></div>
+                    <div class="tree-step-card">
+                        <div class="tree-step-header">
+                            <div class="tree-step-badge">YETKİLENDİRME DENETİMİ</div>
+                            <span class="branch-badge branch-badge-no">Sağlanmadı</span>
+                        </div>
+                        <div class="tree-step-rule"><strong>Koşul:</strong> Standart Portta Hatalı Giriş &gt; 3</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">Girdi: <code>0</code> | Eşik: <code>&gt; 3</code></div>
+                    </div>
+                    <div class="tree-final-card">
+                        <span style="font-size:0.82rem; font-weight:600; color:var(--text-primary);">Sınıflandırma Kararı: Normal Trafik</span>
+                        <span class="risk-badge badge-low">Düşük</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yatay Ayraç -->
+            <div style="margin:20px 0; border-top:1px solid var(--border-color);"></div>
+
+            <!-- Özellik Etki Dağılımı ve Karşı-Olgusal (2 Sütunlu Kompakt) -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px;">
+                <div>
+                    <div class="section-label">Özellik Etki Dağılımı (Katkı Analizi)</div>
+                    <div id="resFeatureAttribution" class="fa-list">
+                        <div class="fa-item"><div class="fa-header"><span class="fa-label">Paket Boyutu (540 B)</span><span class="fa-value">Normal (%18)</span></div><div class="fa-bar-track"><div class="fa-bar-fill" style="width: 18%"></div></div></div>
+                        <div class="fa-item"><div class="fa-header"><span class="fa-label">İstek Hızı (12 req/s)</span><span class="fa-value">Düşük Hız (%14)</span></div><div class="fa-bar-track"><div class="fa-bar-fill" style="width: 14%"></div></div></div>
+                        <div class="fa-item"><div class="fa-header"><span class="fa-label">Hatalı Giriş (0)</span><span class="fa-value">Sıfır Hata (%12)</span></div><div class="fa-bar-track"><div class="fa-bar-fill" style="width: 12%"></div></div></div>
+                        <div class="fa-item"><div class="fa-header"><span class="fa-label">Port Türü (Standart Port)</span><span class="fa-value">Güvenli (%15)</span></div><div class="fa-bar-track"><div class="fa-bar-fill" style="width: 15%"></div></div></div>
+                        <div class="fa-item"><div class="fa-header"><span class="fa-label">Bağlantı Süresi (1.6 sn)</span><span class="fa-value">Dengeli (%8)</span></div><div class="fa-bar-track"><div class="fa-bar-fill" style="width: 8%"></div></div></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="section-label">Alternatif Karar Koşulları (Karşı-Olgusal Senaryo)</div>
+                    <div id="resCounterfactuals" class="cf-list">
+                        <div class="cf-card">
+                            <div class="cf-header">Alternatif Karar Koşulu</div>
+                            <div style="line-height:1.5;">Eğer İstek Hızı &ge; 80 req/s ve Paket Boyutu &gt; 1500 B yapılsaydı, akış "DDoS / Flood Saldırısı" olarak sınıflandırılacaktı.</div>
+                            <div style="margin-top:8px; padding-top:6px; border-top:1px solid var(--border-color); font-size:0.75rem; font-family:'JetBrains Mono',monospace; color:var(--text-secondary);">
+                                Değişen Özellik Sayısı: <span style="color:var(--text-primary); font-weight:600;">2</span> &nbsp;|&nbsp; Normalize Değişim Maliyeti: <span style="color:var(--text-primary); font-weight:600;">0.18</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. SEKME: İNTERAKTİF KARAR AĞACI TOPOLOJİSİ -->
+        <div class="console-tab-pane" id="tabSingleTree">
+            <!-- Ağaç Yapısal Metrikleri Barı -->
+            <div class="tree-metrics-bar">
+                <div class="tree-metric-item">
+                    <span class="tree-metric-label">Ağaç Derinliği (Depth)</span>
+                    <span class="tree-metric-val" id="topoTreeDepth">4</span>
+                </div>
+                <div class="tree-metric-item">
+                    <span class="tree-metric-label">Toplam Düğüm (Nodes)</span>
+                    <span class="tree-metric-val" id="topoTotalNodes">14</span>
+                </div>
+                <div class="tree-metric-item">
+                    <span class="tree-metric-label">Toplam Yaprak (Leaves)</span>
+                    <span class="tree-metric-val" id="topoTotalLeaves">8</span>
+                </div>
+                <div class="tree-metric-item">
+                    <span class="tree-metric-label">Kök Gini Safsızlığı</span>
+                    <span class="tree-metric-val" id="topoRootGini">0.781</span>
+                </div>
+                <div class="tree-metric-item">
+                    <span class="tree-metric-label">Shannon Entropisi</span>
+                    <span class="tree-metric-val" id="topoRootEntropy">2.450 bit</span>
+                </div>
+                <div class="tree-metric-item">
+                    <span class="tree-metric-label">Budama Katsayısı (α_min)</span>
+                    <span class="tree-metric-val" style="color:#3b82f6;" id="topoAlpha">0.012</span>
+                </div>
+            </div>
+
+            <div style="font-size:0.80rem; color:var(--text-secondary); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <span>Analiz edilen akışın izlediği <strong>Karar Yolu (Decision Path)</strong> ağaç üzerinde renkli kenarlıkla vurgulanır. Düğümlerin üzerine gelerek <em>Gini, Entropi ve Eşik</em> değerlerini inceleyebilirsiniz.</span>
+                <span id="activePathSummaryBadge" class="table-badge badge-normal" style="display:none;">Aktif Yol Vurgulandı</span>
+            </div>
+
+            <!-- SVG Ağaç Çizimi Konteyneri -->
+            <div class="tree-scroll-hint">⇄ Ekran daraldığında yatay kaydırarak ve düğümlere dokunarak inceleyebilirsiniz</div>
+            <div class="tree-svg-container" id="treeSvgWrap">
+                <svg id="decisionTreeSvg" class="tree-svg-element" viewBox="-30 0 1100 475" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Dinamik SVG app.js tarafından çizilecektir -->
+                </svg>
+                <!-- İnteraktif Tooltip -->
+                <div id="treeNodeTooltip" class="tree-node-tooltip"></div>
+            </div>
+        </div>
+
+        <!-- 3. SEKME: ÖZNİTELİK KATKISI (SHAP ATRIBÜSYONU) -->
+        <div class="console-tab-pane" id="tabSingleShap">
+            <div style="font-size:0.80rem; color:var(--text-secondary); margin-bottom:14px; line-height:1.5;">
+                Model genelindeki <strong>Global Öznitelik Önemi (Permütasyon & Bilgi Kazancı)</strong> ağırlıkları ile mevcut tekil tahmine ait <strong>Yerel Özellik Katkısı (SHAP)</strong> değerleri. Pozitif değerler (<span style="color:#dc2626; font-weight:600;">kırmızı</span>) riski artırırken, negatif değerler (<span style="color:#16a34a; font-weight:600;">yeşil</span>) akışı normal sınıfa çeker.
+            </div>
+
+            <div class="importance-comparison-grid">
+                <!-- Global Öncelik Sıralaması -->
+                <div class="importance-card">
+                    <div class="importance-card-title">
+                        <span style="color:var(--text-primary);">Model Global Öznitelik Önemi</span>
+                        <span class="table-badge badge-normal">Model Geneli (%)</span>
+                    </div>
+                    <div id="globalImportanceBars">
+                        <!-- app.js dinamik günceller -->
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#3b82f6;"></span>
+                                    Paket Boyutu (Byte)
+                                </span>
+                                <span class="shap-row-val">%32.5 (IG: 0.52)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-global" style="width: 32.5%;"></div>
+                            </div>
+                        </div>
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#3b82f6;"></span>
+                                    Bağlantı Süresi (sn)
+                                </span>
+                                <span class="shap-row-val">%24.0 (IG: 0.42)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-global" style="width: 24%;"></div>
+                            </div>
+                        </div>
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#3b82f6;"></span>
+                                    İstek Hızı (req/s)
+                                </span>
+                                <span class="shap-row-val">%18.5 (IG: 0.35)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-global" style="width: 18.5%;"></div>
+                            </div>
+                        </div>
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#3b82f6;"></span>
+                                    Hatalı Giriş Sayısı
+                                </span>
+                                <span class="shap-row-val">%15.0 (IG: 0.48)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-global" style="width: 15%;"></div>
+                            </div>
+                        </div>
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#3b82f6;"></span>
+                                    Port Türü (Servis)
+                                </span>
+                                <span class="shap-row-val">%10.0 (IG: 0.38)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-global" style="width: 10%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tekil Tahmine Özel Yerel Katkı (SHAP) -->
+                <div class="importance-card">
+                    <div class="importance-card-title">
+                        <span style="color:var(--text-primary);">Bu Akışa Özel Yerel Katkı (SHAP)</span>
+                        <span class="table-badge badge-normal" id="localShapBaseVal">Baz Risk: %20.0</span>
+                    </div>
+                    <div id="localImportanceBars">
+                        <!-- app.js dinamik günceller -->
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#16a34a;"></span>
+                                    Paket Boyutu: <code style="font-size:0.75rem; color:var(--text-secondary);">540 B</code>
+                                </span>
+                                <span class="shap-badge-dir shap-badge-neg">-%18.0 (Güvenliğe Çekiyor)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-neg" style="width: 39.6%;"></div>
+                            </div>
+                        </div>
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#16a34a;"></span>
+                                    İstek Hızı: <code style="font-size:0.75rem; color:var(--text-secondary);">12 req/s</code>
+                                </span>
+                                <span class="shap-badge-dir shap-badge-neg">-%14.0 (Güvenliğe Çekiyor)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-neg" style="width: 30.8%;"></div>
+                            </div>
+                        </div>
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#16a34a;"></span>
+                                    Hatalı Giriş: <code style="font-size:0.75rem; color:var(--text-secondary);">0</code>
+                                </span>
+                                <span class="shap-badge-dir shap-badge-neg">-%12.0 (Güvenliğe Çekiyor)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-neg" style="width: 26.4%;"></div>
+                            </div>
+                        </div>
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#16a34a;"></span>
+                                    Port Türü: <code style="font-size:0.75rem; color:var(--text-secondary);">Standart Port</code>
+                                </span>
+                                <span class="shap-badge-dir shap-badge-neg">-%15.0 (Güvenliğe Çekiyor)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-neg" style="width: 33%;"></div>
+                            </div>
+                        </div>
+                        <div class="shap-row">
+                            <div class="shap-row-header">
+                                <span class="shap-row-label">
+                                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#16a34a;"></span>
+                                    Bağlantı Süresi: <code style="font-size:0.75rem; color:var(--text-secondary);">1.6 sn</code>
+                                </span>
+                                <span class="shap-badge-dir shap-badge-neg">-%8.0 (Güvenliğe Çekiyor)</span>
+                            </div>
+                            <div class="shap-bar-track-dual">
+                                <div class="shap-bar-fill-neg" style="width: 17.6%;"></div>
+                            </div>
+                        </div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:12px; font-style:italic; border-top:1px solid var(--border-color); padding-top:8px;">
+                            ℹ️ Girdi parametreleri güvenlik eşik sınırlarının altındadır. Model akışı normal/güvenli bölgede değerlendirmektedir.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. SEKME: SİSTEM KARAR KURALLARI TABLOSU -->
+        <div class="console-tab-pane" id="tabSingleRules">
             <div class="table-wrap">
                 <table class="rules-table">
                     <thead>
@@ -250,7 +512,7 @@
                 </table>
             </div>
         </div>
-    </details>
+    </div>
 </div>
 
 <script src="/app.js"></script>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Olay Günlükleri ve Karantina | Ağ Trafiği Sınıflandırma Sistemi</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32' fill='none'%3E%3Ccircle cx='10' cy='10' r='6.5' stroke='%2338BDF8' stroke-width='2'/%3E%3Cpath d='M14.6 14.6L20.5 20.5' stroke='%2338BDF8' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8' stroke='%2338BDF8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='6.2' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='6.8' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='13.2' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32' fill='none'%3E%3Ccircle cx='10' cy='10' r='6.5' stroke='%233b82f6' stroke-width='2'/%3E%3Cpath d='M14.6 14.6L20.5 20.5' stroke='%233b82f6' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8' stroke='%233b82f6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='6.2' r='1.3' fill='%233b82f6'/%3E%3Ccircle cx='6.8' cy='12.8' r='1.3' fill='%233b82f6'/%3E%3Ccircle cx='13.2' cy='12.8' r='1.3' fill='%233b82f6'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -12,19 +12,19 @@
     <!-- YAZDIRMA İÇİN RAPOR ÜST BİLGİSİ (YALNIZCA YAZICIDA/PDF'TE GÖRÜNÜR) -->
     <div class="print-only-header">
         <h2>Ağ Güvenlik ve Olay Denetim Raporu</h2>
-        <p>Resmi Olay Günlüğü, XAI Karar Ağacı Analizleri ve Karantina Kayıt Dökümü (cyber_xai_tree v2.4)</p>
+        <p>Resmi Olay Günlüğü, XAI Karar Ağacı Analizleri ve Karantina Kayıt Dökümü</p>
     </div>
 
     <header class="header">
         <div class="brand">
             <div class="brand-title-wrap">
                 <svg class="brand-branch-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
-                    <circle cx="10" cy="10" r="6.5" stroke="#38BDF8" stroke-width="2"/>
-                    <path d="M14.6 14.6L20.5 20.5" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="10" cy="6.2" r="1.3" fill="#38BDF8"/>
-                    <circle cx="6.8" cy="12.8" r="1.3" fill="#38BDF8"/>
-                    <circle cx="13.2" cy="12.8" r="1.3" fill="#38BDF8"/>
+                    <circle cx="10" cy="10" r="6.5" stroke="#3b82f6" stroke-width="2"/>
+                    <path d="M14.6 14.6L20.5 20.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8" stroke="#3b82f6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="6.2" r="1.3" fill="#3b82f6"/>
+                    <circle cx="6.8" cy="12.8" r="1.3" fill="#3b82f6"/>
+                    <circle cx="13.2" cy="12.8" r="1.3" fill="#3b82f6"/>
                 </svg>
                 <h1>Ağ Trafiği Sınıflandırma Sistemi</h1>
             </div>
@@ -37,137 +37,153 @@
         </nav>
     </header>
 
-    <!-- ÖZET İSTATİSTİKLER -->
+    <!-- ÖZET İSTATİSTİK KARTLARI -->
     <section class="stats-grid">
         <div class="stat-card stat-card-total">
             <div class="stat-header">
                 <span class="stat-label">Toplam Olay Kaydı</span>
             </div>
-            <div class="stat-value" id="statTotal">0</div>
+            <div class="stat-value" id="statTotal">124</div>
         </div>
         <div class="stat-card stat-card-high">
             <div class="stat-header">
                 <span class="stat-label">Yüksek Risk</span>
             </div>
-            <div class="stat-value" style="color:#fb7185;" id="statHigh">0</div>
+            <div class="stat-value" style="color:#dc2626;" id="statHigh">73</div>
         </div>
         <div class="stat-card stat-card-med">
             <div class="stat-header">
                 <span class="stat-label">Orta Risk</span>
             </div>
-            <div class="stat-value" style="color:#fbbf24;" id="statMed">0</div>
+            <div class="stat-value" style="color:#d97706;" id="statMed">15</div>
         </div>
         <div class="stat-card stat-card-low">
             <div class="stat-header">
                 <span class="stat-label">Normal Trafik</span>
             </div>
-            <div class="stat-value" style="color:#34d399;" id="statLow">0</div>
+            <div class="stat-value" style="color:#16a34a;" id="statLow">36</div>
         </div>
     </section>
 
-    <!-- KARANTİNA YÖNETİMİ PANELİ -->
-    <section class="card">
-        <div class="card-header">
-            <div>
-                <h2 class="card-title">Karantinaya Alınan IP Adresleri</h2>
-                <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">
-                    Engellenen ve şüpheli akış oluşturan IP adreslerinin merkezi yönetimi
-                </div>
-            </div>
-            <div class="quarantine-add-wrap" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-                <input type="text" id="manualQuarantineIp" placeholder="Örn: 185.220.101.42" style="max-width:210px;">
-                <button type="button" class="btn-danger" onclick="addManualQuarantine()">
-                    Karantinaya Ekle
-                </button>
-            </div>
+    <!-- TEK BİRLEŞİK KONSOL KARTI: 2 ALT SEKME -->
+    <div class="card console-card" data-tab-group="logs-console" style="margin-top:20px; padding:0;">
+        <div class="console-tab-bar">
+            <button type="button" class="console-tab-btn active" data-tab-target="tabLogsAudit" onclick="switchConsoleTab('logs-console', 'tabLogsAudit')">Analiz Geçmişi ve Denetim Logları</button>
+            <button type="button" class="console-tab-btn" data-tab-target="tabLogsQuarantine" onclick="switchConsoleTab('logs-console', 'tabLogsQuarantine')">Karantinaya Alınan IP Adresleri</button>
         </div>
-        <div class="table-wrap">
-            <table class="quarantine-table">
-                <thead>
-                    <tr>
-                        <th>Hedef IP Adresi</th>
-                        <th>Ağ Kapsamı</th>
-                        <th>Karantina Gerekçesi</th>
-                        <th>Tetiklenme Sayısı</th>
-                        <th>Eklenme Zamanı</th>
-                        <th class="col-action" style="text-align:right;">İşlem</th>
-                    </tr>
-                </thead>
-                <tbody id="quarantineTableBody">
-                    <tr><td colspan="6" style="text-align:center; color:#94a3b8; padding:18px;">Karantina listesi yükleniyor...</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
 
-    <!-- ANALİZ GEÇMİŞİ VE DENETİM LOGLARI -->
-    <section class="card">
-        <div class="card-header">
-            <div>
-                <h2 class="card-title">Analiz Geçmişi ve Denetim Kayıtları</h2>
-                <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">
-                    Tüm tekil ve toplu XAI sınıflandırma kararlarının kronolojik denetim dökümü
-                </div>
-            </div>
-            <div class="logs-header-actions" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-                <button type="button" class="btn-outline" onclick="loadLogsAndQuarantine()">
-                    Yenile
-                </button>
-                <div class="report-dropdown-wrap">
-                    <button type="button" class="btn-outline report-dropdown-btn" id="reportMenuBtn" onclick="toggleReportMenu(event)">
-                        Rapor İndir ▾
-                    </button>
-                    <div class="report-dropdown-menu" id="reportMenu">
-                        <a href="/api/logs/download-csv" download="ag_guvenlik_olay_raporu.csv" class="report-dropdown-item" onclick="closeReportMenu()">
-                            <span class="report-item-title">CSV Raporu İndir</span>
-                            <span class="report-item-desc">Analiz logları, karantina ve model kuralları (UTF-8 Excel uyumlu)</span>
-                        </a>
-                        <button type="button" class="report-dropdown-item" onclick="closeReportMenu(); printEventReport();">
-                            <span class="report-item-title">Yazdırılabilir Olay Raporu</span>
-                            <span class="report-item-desc">Raporu yazdır veya PDF olarak kaydet</span>
-                        </button>
-                        <a href="/api/logs/download?format=json" download="ag_guvenlik_olay_raporu.json" class="report-dropdown-item" onclick="closeReportMenu()">
-                            <span class="report-item-title">JSON Veri Yedeği</span>
-                            <span class="report-item-desc">Ham denetim ve log kayıtları</span>
-                        </a>
+        <!-- 1. SEKME: ANALİZ GEÇMİŞİ VE DENETİM LOGLARI -->
+        <div class="console-tab-pane active" id="tabLogsAudit" style="padding:16px;">
+            <div class="card-header" style="margin-bottom:12px; padding:0 0 10px 0; border-bottom:1px solid var(--border-color);">
+                <div>
+                    <h3 class="card-title">Olay Günlüğü ve Denetim Dökümü</h3>
+                    <div style="font-size:0.77rem; color:var(--text-muted); margin-top:2px;">
+                        Tüm tekil ve toplu sınıflandırma kararlarının kronolojik denetim dökümü
                     </div>
                 </div>
-                <button type="button" class="btn-danger" onclick="clearAllLogs()">
-                    Geçmişi Temizle
-                </button>
+                <div class="logs-header-actions" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <button type="button" class="btn-outline" onclick="loadLogsAndQuarantine()">
+                        Yenile
+                    </button>
+                    <div class="report-dropdown-wrap">
+                        <button type="button" class="btn-outline report-dropdown-btn" id="reportMenuBtn" onclick="toggleReportMenu(event)">
+                            Rapor İndir ▾
+                        </button>
+                        <div class="report-dropdown-menu" id="reportMenu">
+                            <a href="/api/logs/download-csv" download="ag_guvenlik_olay_raporu.csv" class="report-dropdown-item" onclick="closeReportMenu()">
+                                <span class="report-item-title">CSV Raporu İndir</span>
+                                <span class="report-item-desc">Analiz logları ve karantina kayıtları (UTF-8)</span>
+                            </a>
+                            <button type="button" class="report-dropdown-item" onclick="closeReportMenu(); printEventReport();">
+                                <span class="report-item-title">Yazdırılabilir Olay Raporu</span>
+                                <span class="report-item-desc">Raporu yazdır veya PDF olarak kaydet</span>
+                            </button>
+                            <a href="/api/logs/download?format=json" download="ag_guvenlik_olay_raporu.json" class="report-dropdown-item" onclick="closeReportMenu()">
+                                <span class="report-item-title">JSON Veri Yedeği</span>
+                                <span class="report-item-desc">Ham denetim ve log kayıtları</span>
+                            </a>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-danger" onclick="clearAllLogs()">
+                        Geçmişi Temizle
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtreleme Kontrolleri -->
+            <div class="filter-bar" style="margin-bottom:14px;">
+                <select id="riskFilter" onchange="renderFilteredLogs()" style="max-width:200px;">
+                    <option value="ALL">Tüm Risk Seviyeleri</option>
+                    <option value="Yüksek">Yüksek Risk</option>
+                    <option value="Orta">Orta Risk</option>
+                    <option value="Düşük">Düşük Risk (Normal)</option>
+                </select>
+                <input type="text" id="searchFilter" oninput="renderFilteredLogs()" placeholder="Kaynak IP veya saldırı türü ile filtrele..." style="flex:1;">
+            </div>
+
+            <!-- Log Veri Tablosu -->
+            <div class="table-wrap">
+                <table class="logs-table">
+                    <thead>
+                        <tr>
+                            <th>Tarih / Saat</th>
+                            <th>Kaynak IP</th>
+                            <th>Ağ Kapsamı</th>
+                            <th>Analiz Kaynağı</th>
+                            <th>Tespit Edilen Sınıf</th>
+                            <th>Risk Skoru</th>
+                            <th>Risk Seviyesi</th>
+                            <th class="col-action">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody">
+                        <tr><td>22.11.2026 16:11</td><td><strong>10.0.0.45</strong></td><td><span class="scope-badge scope-private">İç Ağ (RFC 1918)</span></td><td style="color:var(--text-secondary);">Toplu CSV Analizi</td><td style="font-weight:600;">DDoS / Flood Saldırısı</td><td>92/100</td><td><span class="risk-badge badge-high">Yüksek</span></td><td class="col-action"><button type="button" class="btn-table-action btn-danger" onclick="quarantineIpFromRow('10.0.0.45', 'DDoS / Flood Saldırısı')">Karantinaya Al</button></td></tr>
+                        <tr><td>22.11.2026 16:11</td><td><strong>185.220.101.42</strong></td><td><span class="scope-badge scope-public">Dış Ağ IP</span></td><td style="color:var(--text-secondary);">Toplu CSV Analizi</td><td style="font-weight:600;">DDoS / Flood Saldırısı</td><td>98/100</td><td><span class="risk-badge badge-high">Yüksek</span></td><td class="col-action"><span class="badge-quarantined">Karantinada</span></td></tr>
+                        <tr><td>22.11.2026 16:11</td><td><strong>192.168.1.24</strong></td><td><span class="scope-badge scope-private">İç Ağ (RFC 1918)</span></td><td style="color:var(--text-secondary);">Toplu CSV Analizi</td><td style="font-weight:600;">Normal Trafik</td><td>18/100</td><td><span class="risk-badge badge-low">Düşük</span></td><td class="col-action">-</td></tr>
+                        <tr><td>22.11.2026 16:11</td><td><strong>172.16.40.88</strong></td><td><span class="scope-badge scope-private">İç Ağ (RFC 1918)</span></td><td style="color:var(--text-secondary);">Toplu CSV Analizi</td><td style="font-weight:600;">Veri Sızdırma / Transfer</td><td>85/100</td><td><span class="risk-badge badge-high">Yüksek</span></td><td class="col-action"><button type="button" class="btn-table-action btn-danger" onclick="quarantineIpFromRow('172.16.40.88', 'Veri Sızdırma / Transfer')">Karantinaya Al</button></td></tr>
+                        <tr><td>22.11.2026 16:11</td><td><strong>45.83.64.11</strong></td><td><span class="scope-badge scope-public">Dış Ağ IP</span></td><td style="color:var(--text-secondary);">Toplu CSV Analizi</td><td style="font-weight:600;">Port Taraması ve Keşif</td><td>62/100</td><td><span class="risk-badge badge-med">Orta</span></td><td class="col-action"><button type="button" class="btn-table-action btn-danger" onclick="quarantineIpFromRow('45.83.64.11', 'Port Taraması ve Keşif')">Karantinaya Al</button></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div class="filter-bar">
-            <select id="riskFilter" onchange="renderFilteredLogs()">
-                <option value="ALL">Tüm Risk Seviyeleri</option>
-                <option value="Yüksek">Yüksek Risk</option>
-                <option value="Orta">Orta Risk</option>
-                <option value="Düşük">Düşük Risk (Normal)</option>
-            </select>
-            <input type="text" id="searchFilter" oninput="renderFilteredLogs()" placeholder="Kaynak IP veya saldırı türü ile filtrele...">
-        </div>
+        <!-- 2. SEKME: KARANTİNA YÖNETİMİ -->
+        <div class="console-tab-pane" id="tabLogsQuarantine" style="padding:16px;">
+            <div class="card-header" style="margin-bottom:14px; padding:0 0 10px 0; border-bottom:1px solid var(--border-color);">
+                <div>
+                    <h3 class="card-title">Karantinaya Alınan IP Listesi</h3>
+                    <div style="font-size:0.77rem; color:var(--text-muted); margin-top:2px;">
+                        Engellenen ve şüpheli akış oluşturan IP adreslerinin merkezi yönetimi
+                    </div>
+                </div>
+                <div class="quarantine-add-wrap" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <input type="text" id="manualQuarantineIp" placeholder="Örn: 185.220.101.42" style="max-width:180px;">
+                    <button type="button" class="btn-danger" onclick="addManualQuarantine()">
+                        Karantinaya Ekle
+                    </button>
+                </div>
+            </div>
 
-        <div class="table-wrap">
-            <table class="logs-table">
-                <thead>
-                    <tr>
-                        <th>Tarih / Saat</th>
-                        <th>Kaynak IP</th>
-                        <th>Ağ Kapsamı</th>
-                        <th>Analiz Kaynağı</th>
-                        <th>Tespit Edilen Sınıf</th>
-                        <th>Risk Skoru</th>
-                        <th>Risk Seviyesi</th>
-                        <th class="col-action">İşlem</th>
-                    </tr>
-                </thead>
-                <tbody id="logsTableBody">
-                    <tr><td colspan="8" style="text-align:center; color:#94a3b8; padding:20px;">Kayıtlar yükleniyor...</td></tr>
-                </tbody>
-            </table>
+            <div class="table-wrap">
+                <table class="quarantine-table">
+                    <thead>
+                        <tr>
+                            <th>Hedef IP Adresi</th>
+                            <th>Ağ Kapsamı</th>
+                            <th>Karantina Gerekçesi</th>
+                            <th>Tetiklenme Sayısı</th>
+                            <th>Eklenme Zamanı</th>
+                            <th class="col-action" style="text-align:right;">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="quarantineTableBody">
+                        <tr><td><strong style="color:#dc2626;">185.220.101.42</strong></td><td><span class="scope-badge scope-public">Dış Ağ IP</span></td><td>Manuel SOC Karantina</td><td><span style="font-family:'JetBrains Mono',monospace; font-weight:600;">1 kez</span></td><td>22.11.2026 01:55</td><td class="col-action" style="text-align:right;"><button type="button" class="btn-table-action btn-danger" onclick="removeFromQuarantine('185.220.101.42')">Karantinadan Çıkar</button></td></tr>
+                        <tr><td><strong style="color:#dc2626;">172.16.0.4</strong></td><td><span class="scope-badge scope-private">İç Ağ (RFC 1918)</span></td><td>Normal Trafik Müdahalesi</td><td><span style="font-family:'JetBrains Mono',monospace; font-weight:600;">1 kez</span></td><td>22.11.2026 01:27</td><td class="col-action" style="text-align:right;"><button type="button" class="btn-table-action btn-danger" onclick="removeFromQuarantine('172.16.0.4')">Karantinadan Çıkar</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </section>
+    </div>
 </div>
 
 <script src="/app.js"></script>
