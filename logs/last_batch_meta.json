@@ -1,8 +1,8 @@
 {
-  "totalLinesRead": 1,
-  "validRowsProcessed": 1,
+  "totalLinesRead": 2,
+  "validRowsProcessed": 2,
   "skippedRowsCount": 0,
-  "datasetName": "UNSW-NB15",
-  "schemaMappingSummary": "Şema Eşleme: UNSW-NB15 (srcip -> Kaynak IP, sbytes -> Paket Boyutu, dur -> Süre, rate -> İstek Hızı...)",
-  "lastAnalyzedAt": "2026-11-21T23:56:29.555Z"
+  "datasetName": "Standart Türkçe Şema",
+  "schemaMappingSummary": "Şema Eşleme: Standart Türkçe Şema (kaynak_ip -> Kaynak IP, paket_boyutu -> Paket Boyutu, sure -> Süre, bilinen_port -> Port Türü...)",
+  "lastAnalyzedAt": "2026-11-22T21:06:22.584Z"
 }

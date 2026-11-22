@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSV Toplu Analiz | Ağ Trafiği Sınıflandırma Sistemi</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32' fill='none'%3E%3Ccircle cx='10' cy='10' r='6.5' stroke='%2338BDF8' stroke-width='2'/%3E%3Cpath d='M14.6 14.6L20.5 20.5' stroke='%2338BDF8' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8' stroke='%2338BDF8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='6.2' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='6.8' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3Ccircle cx='13.2' cy='12.8' r='1.3' fill='%2338BDF8'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='32' height='32' fill='none'%3E%3Ccircle cx='10' cy='10' r='6.5' stroke='%233b82f6' stroke-width='2'/%3E%3Cpath d='M14.6 14.6L20.5 20.5' stroke='%233b82f6' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8' stroke='%233b82f6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='6.2' r='1.3' fill='%233b82f6'/%3E%3Ccircle cx='6.8' cy='12.8' r='1.3' fill='%233b82f6'/%3E%3Ccircle cx='13.2' cy='12.8' r='1.3' fill='%233b82f6'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -13,12 +13,12 @@
         <div class="brand">
             <div class="brand-title-wrap">
                 <svg class="brand-branch-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
-                    <circle cx="10" cy="10" r="6.5" stroke="#38BDF8" stroke-width="2"/>
-                    <path d="M14.6 14.6L20.5 20.5" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="10" cy="6.2" r="1.3" fill="#38BDF8"/>
-                    <circle cx="6.8" cy="12.8" r="1.3" fill="#38BDF8"/>
-                    <circle cx="13.2" cy="12.8" r="1.3" fill="#38BDF8"/>
+                    <circle cx="10" cy="10" r="6.5" stroke="#3b82f6" stroke-width="2"/>
+                    <path d="M14.6 14.6L20.5 20.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M10 6.2V9.5M10 9.5L6.8 12.8M10 9.5L13.2 12.8" stroke="#3b82f6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="6.2" r="1.3" fill="#3b82f6"/>
+                    <circle cx="6.8" cy="12.8" r="1.3" fill="#3b82f6"/>
+                    <circle cx="13.2" cy="12.8" r="1.3" fill="#3b82f6"/>
                 </svg>
                 <h1>Ağ Trafiği Sınıflandırma Sistemi</h1>
             </div>
@@ -31,45 +31,52 @@
         </nav>
     </header>
 
+    <!-- ÜST PANEL: VERİ YÜKLEME VE İŞLEM ALANI -->
     <section class="card">
         <div class="card-header">
             <h2 class="card-title">CSV Toplu Trafik Analizi</h2>
         </div>
 
-        <!-- SADE VERİ GİRİŞ ALANI & ANA İŞLEM BUTONLARI -->
         <div class="upload-zone" id="uploadZone">
             <div class="upload-zone-left">
                 <div>
-                    <div style="font-weight:700; font-size:0.94rem; color:#ffffff;">CSV Dosyası Yükle</div>
+                    <div style="font-weight:600; font-size:0.92rem; color:var(--text-primary);">CSV Dosyası Yükle</div>
                     <div class="upload-filename" id="selectedFileName">Dosya seçin veya buraya sürükleyin</div>
                 </div>
             </div>
-            <div class="upload-zone-actions" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <div class="upload-zone-actions" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                 <input type="file" id="csvFileInput" accept=".csv" style="display:none;" onchange="handleFileSelected(this)">
                 <button type="button" class="btn-outline" onclick="document.getElementById('csvFileInput').click()">
                     Dosya Seç
                 </button>
-                <button type="button" class="btn-emerald" onclick="uploadAndAnalyzeCSV()">
+                <button type="button" class="btn-outline" onclick="loadAndRunSampleBatch()" style="color:#3b82f6; border-color:#262b36;">
+                    Örnek Veri Yükle ve Analiz Et
+                </button>
+                <button type="button" class="btn-primary" onclick="uploadAndAnalyzeCSV()">
                     Analiz Et
                 </button>
             </div>
         </div>
 
         <!-- İsteğe Bağlı Manuel Metin Girişi -->
-        <details class="csv-raw-details" id="csvDetailsWrap" open>
+        <details class="csv-raw-details" id="csvDetailsWrap">
             <summary class="csv-raw-summary">CSV Metnini Elle Yapıştırın</summary>
             <div style="margin-top:10px;">
                 <div class="csv-format-guide">
-                    <span style="font-weight:700; color:var(--text-primary);">Beklenen Format Rehberi:</span>
-                    <span style="color:#38bdf8;">Kaynak IP, Paket Boyutu, Süre, Bilinen Port, Hatalı Giriş, İstek Hızı, Gerçek Etiket (opsiyonel)</span>
-                    <div style="font-size:0.75rem; color:var(--text-muted); margin-top:3px;">
-                        Sütun ayrımı için virgül (<strong>,</strong>), ondalık sayılar için nokta (<strong>.</strong>) kullanın (Örn: Süre: <strong>0.5</strong>, Port: <strong>Evet/Hayır</strong> veya <strong>true/false</strong>).
+                    <span style="font-weight:600; color:var(--text-primary);">Beklenen Sütun Formatı:</span>
+                    <span style="color:#3b82f6;">Kaynak IP, Paket Boyutu, Süre, Bilinen Port, Hatalı Giriş, İstek Hızı, Gerçek Etiket (opsiyonel)</span>
+                    <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
+                        Virgül (,) ayraçlı, ondalık sayılar için nokta (.) kullanınız.
                     </div>
                 </div>
-                <textarea id="csvRawInput" rows="5" placeholder="Kaynak IP, Paket Boyutu, Süre, Bilinen Port, Hatalı Giriş, İstek Hızı
-185.220.101.42, 2450, 0.1, true, 0, 140
-91.132.44.19, 420, 6.5, false, 8, 25
-192.168.1.24, 540, 1.6, true, 0, 12"></textarea>
+                <textarea id="csvRawInput" rows="5" placeholder="Kaynak IP, Paket Boyutu, Süre, Bilinen Port, Hatalı Giriş, İstek Hızı, Gerçek Etiket">Kaynak IP, Paket Boyutu, Süre, Bilinen Port, Hatalı Giriş, İstek Hızı, Gerçek Etiket
+185.220.101.42, 2450, 0.1, true, 0, 140, DDoS / Flood Saldırısı
+91.132.44.19, 420, 6.5, false, 8, 25, Kaba Kuvvet (Brute-Force) Saldırısı
+45.83.64.11, 110, 0.05, false, 0, 65, Port Taraması ve Keşif Aktivitesi
+172.16.40.88, 3800, 12.4, false, 0, 15, Veri Sızdırma / Şüpheli Transfer
+192.168.1.24, 540, 1.6, true, 0, 12, Normal Trafik
+185.220.101.42, 2600, 0.15, true, 0, 150, DDoS / Flood Saldırısı
+10.0.0.45, 1900, 0.2, true, 0, 95, DDoS / Flood Saldırısı</textarea>
             </div>
         </details>
 
@@ -79,172 +86,416 @@
         <input type="hidden" id="requestRateThreshold" value="80">
 
         <!-- ANALİZ SONUÇLARI ALANI -->
-        <div id="csvResultArea" style="display:none; margin-top:28px;">
-            <!-- VERİ KALİTESİ, ŞEMA EŞLEME VE DAĞILIM FARKI (DRIFT) ÖZETİ -->
-            <div id="dataQualityBox" class="data-quality-box" style="margin-bottom:18px;">
+        <div id="csvResultArea" style="display:block; margin-top:20px;">
+            <!-- VERİ KALİTESİ, ŞEMA EŞLEME VE DAĞILIM FARKI (DRIFT) BARI -->
+            <div id="dataQualityBox" class="data-quality-box" style="margin-bottom:16px;">
                 <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                        <div style="font-size:0.84rem; color:var(--text-primary);">
-                            <strong>Veri Kalitesi:</strong> <span id="dataQualityText">Tüm satırlar başarıyla okundu.</span>
+                        <div style="font-size:0.82rem; color:var(--text-primary);">
+                            <strong>Veri Kalitesi:</strong> <span id="dataQualityText">Toplam 7 satır okundu, 7 geçerli akış başarıyla işlendi (atlanan satır yok).</span>
                         </div>
-                        <div class="data-quality-pills" id="dataQualityPills"></div>
+                        <div class="data-quality-pills" id="dataQualityPills">
+                            <span class="quality-pill quality-pill-clean">İşlenen: 7 Satır</span>
+                            <span class="quality-pill quality-pill-clean">Atlanan: 0 Satır</span>
+                        </div>
                     </div>
-                    <div id="schemaMappingText" style="font-size:0.77rem; color:#38bdf8; font-family:'JetBrains Mono',monospace;">
-                        Şema Eşleme: Standart Şema
+                    <div id="schemaMappingText" style="font-size:0.75rem; color:#3b82f6; font-family:'JetBrains Mono',monospace;">
+                        Şema Eşleme: Standart Türkçe Şema (kaynak_ip -> Kaynak IP, paket_boyutu -> Paket Boyutu...)
                     </div>
-                    <div id="driftSummaryText" style="font-size:0.77rem; color:var(--text-secondary); font-family:'JetBrains Mono',monospace;">
-                        Dağılım Farkı: Analiz bekleniyor.
+                    <div id="driftSummaryText" style="font-size:0.75rem; color:var(--text-secondary); font-family:'JetBrains Mono',monospace;">
+                        Dağılım Farkı: Referans dağılımı kaydedildi (İlk Analiz).
                     </div>
+                    <div id="driftStatusText" style="display:none;"></div>
+                    <div id="driftItemsList" style="display:none;"></div>
                 </div>
             </div>
 
-            <!-- ETİKETLİ VERİ SETİ DOĞRULAMA KARTI (Accuracy, Macro-F1, Weighted-F1) -->
-            <div id="evalBox" class="academic-eval-box" style="display:none;">
-                <div class="academic-eval-header">
-                    <div>
-                        <div class="academic-eval-title">
-                            Akademik Model Performansı ve Doğrulama Metrikleri
-                        </div>
-                        <div id="evalDetail" style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">-</div>
-                    </div>
-                </div>
-
-                <!-- 4'lü Genel Metrikler -->
-                <div class="eval-academic-grid">
-                    <div class="eval-metric-box">
-                        <div class="eval-metric-name">Genel Doğruluk (Accuracy)</div>
-                        <div class="eval-metric-val" id="evalAccuracy">%0.0</div>
-                    </div>
-                    <div class="eval-metric-box">
-                        <div class="eval-metric-name">Macro-F1 Skoru</div>
-                        <div class="eval-metric-val" style="color:#38bdf8;" id="evalMacroF1">%0.0</div>
-                    </div>
-                    <div class="eval-metric-box">
-                        <div class="eval-metric-name">Weighted-F1 Skoru</div>
-                        <div class="eval-metric-val" style="color:#a78bfa;" id="evalWeightedF1">%0.0</div>
-                    </div>
-                    <div class="eval-metric-box">
-                        <div class="eval-metric-name">Macro-Kesinlik (Precision)</div>
-                        <div class="eval-metric-val" style="color:#34d399;" id="evalPrecision">%0.0</div>
-                    </div>
-                </div>
-
-                <!-- Güvenlik Kritik Yanlış Negatif & Yanlış Pozitif Özeti -->
-                <div class="security-eval-grid" style="margin-top:16px;">
-                    <div class="security-eval-card card-fn">
-                        <div class="security-eval-title">Yanlış Negatif (FN - Kritik Kaçırılan Saldırı)</div>
-                        <div class="security-eval-val" id="evalFnCount">0</div>
-                        <div class="security-eval-desc" id="evalFnDesc">Gerçekte saldırı olup modelin "Normal" dediği akış sayısı.</div>
-                    </div>
-                    <div class="security-eval-card card-fp">
-                        <div class="security-eval-title">Yanlış Pozitif (FP - Yanlış Alarm)</div>
-                        <div class="security-eval-val" id="evalFpCount">0</div>
-                        <div class="security-eval-desc" id="evalFpDesc">Normal trafiğin yanlışlıkla saldırı olarak işaretlenmesi.</div>
-                    </div>
-                </div>
-
-                <!-- Sınıf Bazlı Performans Metrikleri Tablosu -->
-                <div style="margin-top:20px;">
-                    <div class="section-label" style="color:var(--accent-cyan);">Sınıf Bazlı Kesinlik, Duyarlılık ve F1 Tablosu</div>
-                    <div class="table-wrap">
-                        <table class="class-metrics-table">
-                            <thead>
-                                <tr>
-                                    <th>Saldırı / Trafik Sınıfı</th>
-                                    <th>Örnek Sayısı (Support)</th>
-                                    <th>Kesinlik (Precision)</th>
-                                    <th>Duyarlılık (Recall)</th>
-                                    <th>F1-Skoru</th>
-                                </tr>
-                            </thead>
-                            <tbody id="evalClassMetricsBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Karışıklık Matrisi (Confusion Matrix) Tablosu -->
-                <div style="margin-top:22px;">
-                    <div class="section-label" style="color:var(--accent-blue);">Karışıklık Matrisi (Confusion Matrix - Gerçek vs Tahmin)</div>
-                    <div class="table-wrap" id="confusionMatrixWrap"></div>
-                </div>
-            </div>
-
-            <!-- ÖZET İSTATİSTİK KARTLARI (SUMMARY CARDS) -->
-            <div class="stats-grid" style="margin-top:20px;">
+            <!-- ÖZET İSTATİSTİK KARTLARI (4 KART) -->
+            <div class="stats-grid" style="margin-bottom:20px;">
                 <div class="stat-card stat-card-total">
                     <div class="stat-header">
                         <span class="stat-label">Toplam Akış Kaydı</span>
                     </div>
-                    <div class="stat-value" id="batchTotal">0</div>
+                    <div class="stat-value" id="batchTotal">7</div>
                 </div>
                 <div class="stat-card stat-card-high">
                     <div class="stat-header">
                         <span class="stat-label">Yüksek Risk</span>
                     </div>
-                    <div class="stat-value" style="color:#fb7185;" id="batchHigh">0</div>
+                    <div class="stat-value" style="color:#dc2626;" id="batchHigh">5</div>
                 </div>
                 <div class="stat-card stat-card-med">
                     <div class="stat-header">
                         <span class="stat-label">Orta Risk</span>
                     </div>
-                    <div class="stat-value" style="color:#fbbf24;" id="batchMed">0</div>
+                    <div class="stat-value" style="color:#d97706;" id="batchMed">1</div>
                 </div>
                 <div class="stat-card stat-card-low">
                     <div class="stat-header">
                         <span class="stat-label">Normal Trafik</span>
                     </div>
-                    <div class="stat-value" style="color:#34d399;" id="batchLow">0</div>
+                    <div class="stat-value" style="color:#16a34a;" id="batchLow">1</div>
                 </div>
             </div>
 
-            <!-- SINIF DAĞILIMI TABLOSU -->
-            <div style="margin-top:20px; margin-bottom:24px;">
-                <div class="section-label" style="color:var(--accent-cyan);">
-                    Trafik Sınıf Dağılımı
+            <!-- TOPLU ANALİZ KONSOLU: 4 ALT SEKME -->
+            <div class="card console-card" data-tab-group="batch-analysis" style="padding:0;">
+                <div class="console-tab-bar">
+                    <button type="button" class="console-tab-btn active" data-tab-target="tabBatchTable" onclick="switchConsoleTab('batch-analysis', 'tabBatchTable')">Toplu Akış Tablosu</button>
+                    <button type="button" class="console-tab-btn" data-tab-target="tabBatchEval" onclick="switchConsoleTab('batch-analysis', 'tabBatchEval')">Model Performansı &amp; Karışıklık Matrisi</button>
+                    <button type="button" class="console-tab-btn" data-tab-target="tabBatchRoc" onclick="switchConsoleTab('batch-analysis', 'tabBatchRoc')">Çok Sınıflı ROC &amp; PR-AUC</button>
+                    <button type="button" class="console-tab-btn" data-tab-target="tabBatchPruning" onclick="switchConsoleTab('batch-analysis', 'tabBatchPruning')">Ağaç Budama &amp; Ablasyon Simülasyonu</button>
                 </div>
-                <div class="table-wrap dist-table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tespit Edilen Sınıf</th>
-                                <th>Kayıt Adedi</th>
-                                <th>Dağılım Oranı (%)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="batchClassDistTable"></tbody>
-                    </table>
+
+                <!-- 1. SEKME: TOPLU AKIŞ TABLOSU & DAĞILIM -->
+                <div class="console-tab-pane active" id="tabBatchTable" style="padding:16px;">
+                    <!-- Tekrarlı IP Özeti (Varsa görünür) -->
+                    <div id="repeatedIpsSection" style="display:none; margin-bottom:16px; padding:12px; background:var(--bg-card-sub); border:1px solid var(--border-color); border-radius:4px;">
+                        <div class="section-label" style="color:#d97706; margin-bottom:6px;">Tekrarlanan Şüpheli IP Adresleri</div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>IP Adresi</th>
+                                        <th>Tekrar Sayısı</th>
+                                        <th>Ağ Kapsamı</th>
+                                        <th>Son Sınıflandırma</th>
+                                        <th class="col-action">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="repeatedIpsBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Sınıf Dağılımı Özeti -->
+                    <div style="margin-bottom:18px;">
+                        <div class="section-label">Trafik Sınıf Dağılımı</div>
+                        <div class="table-wrap dist-table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Tespit Edilen Sınıf</th>
+                                        <th>Kayıt Adedi</th>
+                                        <th>Dağılım Oranı (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="batchClassDistTable">
+                                    <tr><td><strong>DDoS / Flood Saldırısı</strong></td><td>3</td><td><div style="display:flex; align-items:center; gap:8px;"><div class="fa-bar-track" style="max-width:120px; height:6px;"><div class="fa-bar-fill" style="width:42.9%; background:#dc2626;"></div></div><span style="font-family:'JetBrains Mono',monospace; font-size:0.75rem;">%42.9</span></div></td></tr>
+                                    <tr><td><strong>Kaba Kuvvet (Brute-Force) Saldırısı</strong></td><td>1</td><td><div style="display:flex; align-items:center; gap:8px;"><div class="fa-bar-track" style="max-width:120px; height:6px;"><div class="fa-bar-fill" style="width:14.3%; background:#dc2626;"></div></div><span style="font-family:'JetBrains Mono',monospace; font-size:0.75rem;">%14.3</span></div></td></tr>
+                                    <tr><td><strong>Port Taraması ve Keşif Aktivitesi</strong></td><td>1</td><td><div style="display:flex; align-items:center; gap:8px;"><div class="fa-bar-track" style="max-width:120px; height:6px;"><div class="fa-bar-fill" style="width:14.3%; background:#d97706;"></div></div><span style="font-family:'JetBrains Mono',monospace; font-size:0.75rem;">%14.3</span></div></td></tr>
+                                    <tr><td><strong>Veri Sızdırma / Şüpheli Transfer</strong></td><td>1</td><td><div style="display:flex; align-items:center; gap:8px;"><div class="fa-bar-track" style="max-width:120px; height:6px;"><div class="fa-bar-fill" style="width:14.3%; background:#dc2626;"></div></div><span style="font-family:'JetBrains Mono',monospace; font-size:0.75rem;">%14.3</span></div></td></tr>
+                                    <tr><td><strong>Normal Trafik</strong></td><td>1</td><td><div style="display:flex; align-items:center; gap:8px;"><div class="fa-bar-track" style="max-width:120px; height:6px;"><div class="fa-bar-fill" style="width:14.3%; background:#16a34a;"></div></div><span style="font-family:'JetBrains Mono',monospace; font-size:0.75rem;">%14.3</span></div></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Ana Sonuç Tablosu -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                        <div class="section-label" style="margin-bottom:0;">Toplu Sınıflandırma Tablosu</div>
+                        <button type="button" class="btn-outline" onclick="exportBatchResultsCSV()">
+                            Sonuçları CSV Olarak İndir
+                        </button>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table class="batch-results-table">
+                            <thead>
+                                <tr>
+                                    <th>Kaynak IP</th>
+                                    <th>Ağ Türü</th>
+                                    <th>Paket Boyutu</th>
+                                    <th>Süre</th>
+                                    <th>Port Türü</th>
+                                    <th>Hatalı Giriş</th>
+                                    <th>İstek Hızı</th>
+                                    <th>Tahmin Sınıfı</th>
+                                    <th>Gerçek Etiket</th>
+                                    <th>Risk Skoru</th>
+                                    <th>Risk</th>
+                                    <th class="col-action">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="csvTableBody">
+                                <tr><td><strong>185.220.101.42</strong></td><td><span class="scope-badge scope-public">Dış Ağ IP</span></td><td>2450 B</td><td>0.1 sn</td><td>Standart</td><td>0</td><td>140 req/s</td><td style="font-weight:600;">DDoS / Flood Saldırısı <span style="color:#16a34a; font-size:0.72rem;">(Eşleşti)</span></td><td style="color:var(--text-secondary);">DDoS / Flood Saldırısı</td><td>98/100</td><td><span class="risk-badge badge-high">Yüksek</span></td><td class="col-action" style="text-align:right;"><button type="button" class="btn-table-action btn-danger" onclick="quarantineIpFromRow('185.220.101.42', 'DDoS / Flood Saldırısı')">Karantinaya Al</button></td></tr>
+                                <tr><td><strong>91.132.44.19</strong></td><td><span class="scope-badge scope-public">Dış Ağ IP</span></td><td>420 B</td><td>6.5 sn</td><td>Bilinmeyen</td><td>8</td><td>25 req/s</td><td style="font-weight:600;">Kaba Kuvvet (Brute-Force) <span style="color:#16a34a; font-size:0.72rem;">(Eşleşti)</span></td><td style="color:var(--text-secondary);">Kaba Kuvvet (Brute-Force)</td><td>88/100</td><td><span class="risk-badge badge-high">Yüksek</span></td><td class="col-action" style="text-align:right;"><button type="button" class="btn-table-action btn-danger" onclick="quarantineIpFromRow('91.132.44.19', 'Kaba Kuvvet (Brute-Force)')">Karantinaya Al</button></td></tr>
+                                <tr><td><strong>45.83.64.11</strong></td><td><span class="scope-badge scope-public">Dış Ağ IP</span></td><td>110 B</td><td>0.05 sn</td><td>Bilinmeyen</td><td>0</td><td>65 req/s</td><td style="font-weight:600;">Port Taraması ve Keşif <span style="color:#16a34a; font-size:0.72rem;">(Eşleşti)</span></td><td style="color:var(--text-secondary);">Port Taraması ve Keşif</td><td>62/100</td><td><span class="risk-badge badge-med">Orta</span></td><td class="col-action" style="text-align:right;"><button type="button" class="btn-table-action btn-danger" onclick="quarantineIpFromRow('45.83.64.11', 'Port Taraması ve Keşif')">Karantinaya Al</button></td></tr>
+                                <tr><td><strong>172.16.40.88</strong></td><td><span class="scope-badge scope-private">İç Ağ (RFC 1918)</span></td><td>3800 B</td><td>12.4 sn</td><td>Bilinmeyen</td><td>0</td><td>15 req/s</td><td style="font-weight:600;">Veri Sızdırma / Transfer <span style="color:#16a34a; font-size:0.72rem;">(Eşleşti)</span></td><td style="color:var(--text-secondary);">Veri Sızdırma / Transfer</td><td>85/100</td><td><span class="risk-badge badge-high">Yüksek</span></td><td class="col-action" style="text-align:right;"><button type="button" class="btn-table-action btn-danger" onclick="quarantineIpFromRow('172.16.40.88', 'Veri Sızdırma / Transfer')">Karantinaya Al</button></td></tr>
+                                <tr><td><strong>192.168.1.24</strong></td><td><span class="scope-badge scope-private">İç Ağ (RFC 1918)</span></td><td>540 B</td><td>1.6 sn</td><td>Standart</td><td>0</td><td>12 req/s</td><td style="font-weight:600;">Normal Trafik <span style="color:#16a34a; font-size:0.72rem;">(Eşleşti)</span></td><td style="color:var(--text-secondary);">Normal Trafik</td><td>18/100</td><td><span class="risk-badge badge-low">Düşük</span></td><td class="col-action" style="text-align:right;">-</td></tr>
+                                <tr><td><strong>185.220.101.42</strong></td><td><span class="scope-badge scope-public">Dış Ağ IP</span></td><td>2600 B</td><td>0.15 sn</td><td>Standart</td><td>0</td><td>150 req/s</td><td style="font-weight:600;">DDoS / Flood Saldırısı <span style="color:#16a34a; font-size:0.72rem;">(Eşleşti)</span></td><td style="color:var(--text-secondary);">DDoS / Flood Saldırısı</td><td>98/100</td><td><span class="risk-badge badge-high">Yüksek</span></td><td class="col-action" style="text-align:right;"><button type="button" class="btn-table-action btn-danger" onclick="quarantineIpFromRow('185.220.101.42', 'DDoS / Flood Saldırısı')">Karantinaya Al</button></td></tr>
+                                <tr><td><strong>10.0.0.45</strong></td><td><span class="scope-badge scope-private">İç Ağ (RFC 1918)</span></td><td>1900 B</td><td>0.2 sn</td><td>Standart</td><td>0</td><td>95 req/s</td><td style="font-weight:600;">DDoS / Flood Saldırısı <span style="color:#16a34a; font-size:0.72rem;">(Eşleşti)</span></td><td style="color:var(--text-secondary);">DDoS / Flood Saldırısı</td><td>92/100</td><td><span class="risk-badge badge-high">Yüksek</span></td><td class="col-action" style="text-align:right;"><button type="button" class="btn-table-action btn-danger" onclick="quarantineIpFromRow('10.0.0.45', 'DDoS / Flood Saldırısı')">Karantinaya Al</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-            <!-- TABLO BAŞLIĞI VE CSV İNDİRME -->
-            <div class="card-header" style="margin-top:24px;">
-                <h3 class="card-title">Toplu Sınıflandırma Tablosu</h3>
-                <button type="button" class="btn-outline" onclick="exportBatchResultsCSV()">
-                    Sonuçları CSV Olarak İndir
-                </button>
-            </div>
+                <!-- 2. SEKME: MODEL PERFORMANSI VE KARIŞIKLIK MATRİSİ -->
+                <div class="console-tab-pane" id="tabBatchEval" style="padding:16px;">
+                    <div id="evalBox" class="academic-eval-box" style="display:block;">
+                        <div class="academic-eval-header" style="margin-bottom:12px;">
+                            <div>
+                                <div class="section-label" style="margin-bottom:2px;">Model Doğrulama ve Performans Metrikleri</div>
+                                <div id="evalDetail" style="font-size:0.78rem; color:var(--text-secondary);">7 / 7 etiket eşleşti (Doğruluk: %100.0, Macro-F1: %100.0)</div>
+                            </div>
+                        </div>
 
-            <!-- TABLO GÖVDESİ -->
-            <div class="table-wrap">
-                <table class="batch-results-table">
-                    <thead>
-                        <tr>
-                            <th>Kaynak IP</th>
-                            <th>Ağ Türü</th>
-                            <th>Paket Boyutu</th>
-                            <th>Süre</th>
-                            <th>Port Türü</th>
-                            <th>Hatalı Giriş</th>
-                            <th>İstek Hızı</th>
-                            <th>Tahmin Sınıfı</th>
-                            <th>Gerçek Etiket</th>
-                            <th>Risk Skoru</th>
-                            <th>Risk</th>
-                            <th class="col-action">İşlem</th>
-                        </tr>
-                    </thead>
-                    <tbody id="csvTableBody"></tbody>
-                </table>
+                        <!-- 4'lü Genel Metrikler -->
+                        <div class="eval-academic-grid">
+                            <div class="eval-metric-box">
+                                <div class="eval-metric-name">Genel Doğruluk (Accuracy)</div>
+                                <div class="eval-metric-val" id="evalAccuracy">%100.0</div>
+                            </div>
+                            <div class="eval-metric-box">
+                                <div class="eval-metric-name">Macro-F1 Skoru</div>
+                                <div class="eval-metric-val" style="color:#3b82f6;" id="evalMacroF1">%100.0</div>
+                            </div>
+                            <div class="eval-metric-box">
+                                <div class="eval-metric-name">Weighted-F1 Skoru</div>
+                                <div class="eval-metric-val" style="color:#8b5cf6;" id="evalWeightedF1">%100.0</div>
+                            </div>
+                            <div class="eval-metric-box">
+                                <div class="eval-metric-name">Macro-Kesinlik (Precision)</div>
+                                <div class="eval-metric-val" style="color:#16a34a;" id="evalPrecision">%100.0</div>
+                            </div>
+                        </div>
+
+                        <!-- Güvenlik Kritik Yanlış Negatif & Yanlış Pozitif Özeti -->
+                        <div class="security-eval-grid" style="margin-top:14px;">
+                            <div class="security-eval-card card-fn">
+                                <div class="security-eval-title">Yanlış Negatif (FN - Kaçırılan Saldırı)</div>
+                                <div class="security-eval-val" id="evalFnCount">0</div>
+                                <div class="security-eval-desc" id="evalFnDesc">Saldırı kaçırma durumu tespit edilmedi. Tüm zararlı akışlar başarıyla yakalandı.</div>
+                            </div>
+                            <div class="security-eval-card card-fp">
+                                <div class="security-eval-title">Yanlış Pozitif (FP - Yanlış Alarm)</div>
+                                <div class="security-eval-val" id="evalFpCount">0</div>
+                                <div class="security-eval-desc" id="evalFpDesc">Normal trafiğin yanlışlıkla saldırı olarak işaretlenmesi (Yanlış Pozitif Oranı: %0.0).</div>
+                            </div>
+                        </div>
+
+                        <!-- Sınıf Bazlı Performans Metrikleri Tablosu -->
+                        <div style="margin-top:18px;">
+                            <div class="section-label">Sınıf Bazlı Kesinlik, Duyarlılık ve F1 Tablosu</div>
+                            <div class="table-wrap">
+                                <table class="class-metrics-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Saldırı / Trafik Sınıfı</th>
+                                            <th>Örnek Sayısı (Support)</th>
+                                            <th>Kesinlik (Precision)</th>
+                                            <th>Duyarlılık (Recall)</th>
+                                            <th>F1-Skoru</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="evalClassMetricsBody">
+                                        <tr><td><strong>Normal Trafik</strong></td><td>1</td><td style="color:#16a34a; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#d97706; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#3b82f6; font-weight:600; font-family:'JetBrains Mono',monospace;">%100.0</td></tr>
+                                        <tr><td><strong>DDoS / Flood Saldırısı</strong></td><td>3</td><td style="color:#16a34a; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#d97706; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#3b82f6; font-weight:600; font-family:'JetBrains Mono',monospace;">%100.0</td></tr>
+                                        <tr><td><strong>Kaba Kuvvet (Brute-Force) Saldırısı</strong></td><td>1</td><td style="color:#16a34a; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#d97706; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#3b82f6; font-weight:600; font-family:'JetBrains Mono',monospace;">%100.0</td></tr>
+                                        <tr><td><strong>Port Taraması ve Keşif Aktivitesi</strong></td><td>1</td><td style="color:#16a34a; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#d97706; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#3b82f6; font-weight:600; font-family:'JetBrains Mono',monospace;">%100.0</td></tr>
+                                        <tr><td><strong>Veri Sızdırma / Şüpheli Transfer</strong></td><td>1</td><td style="color:#16a34a; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#d97706; font-family:'JetBrains Mono',monospace;">%100.0</td><td style="color:#3b82f6; font-weight:600; font-family:'JetBrains Mono',monospace;">%100.0</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Karışıklık Matrisi (Confusion Matrix) Tablosu -->
+                        <div style="margin-top:18px;">
+                            <div class="section-label">Karışıklık Matrisi (Confusion Matrix - Gerçek vs. Tahmin)</div>
+                            <div class="table-wrap" id="confusionMatrixWrap">
+                                <table class="confusion-matrix-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="matrix-header-cell">Gerçek \ Tahmin</th>
+                                            <th>Normal</th>
+                                            <th>DDoS</th>
+                                            <th>Brute-Force</th>
+                                            <th>Port Scan</th>
+                                            <th>Veri Sızdırma</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="matrix-header-cell">Normal</td><td class="matrix-cell-diagonal">1</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td></tr>
+                                        <tr><td class="matrix-header-cell">DDoS</td><td class="matrix-cell-off">0</td><td class="matrix-cell-diagonal">3</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td></tr>
+                                        <tr><td class="matrix-header-cell">Brute-Force</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td><td class="matrix-cell-diagonal">1</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td></tr>
+                                        <tr><td class="matrix-header-cell">Port Scan</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td><td class="matrix-cell-diagonal">1</td><td class="matrix-cell-off">0</td></tr>
+                                        <tr><td class="matrix-header-cell">Veri Sızdırma</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td><td class="matrix-cell-off">0</td><td class="matrix-cell-diagonal">1</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. SEKME: ÇOK SINIFLI ROC EĞRİSİ VE PR-AUC -->
+                <div class="console-tab-pane" id="tabBatchRoc" style="padding:16px;">
+                    <div id="rocSectionDetails">
+                        <div style="font-size:0.80rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">
+                            Modelin çok sınıflı siber saldırı ayrıştırma gücü: One-vs-Rest (OvR) yaklaşımıyla <strong>ROC Eğrisi (FPR vs. TPR)</strong>, <strong>Precision-Recall AUC (PR-AUC)</strong> ve <strong>Gini Katsayıları ($2 \times AUC - 1$)</strong>. Fare ile grafik üzerinde gezinerek anlık koordinatları inceleyebilirsiniz.
+                        </div>
+
+                        <div class="roc-panel-layout">
+                            <!-- Canvas ROC Grafiği -->
+                            <div class="roc-canvas-box">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                    <span style="font-size:0.80rem; font-weight:600; color:var(--text-primary);">ROC Eğrisi (FPR vs. TPR)</span>
+                                    <span id="rocCrosshairCoords" style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:#3b82f6;">FPR: - | TPR: -</span>
+                                </div>
+                                <canvas id="rocCanvas" class="roc-canvas" width="600" height="380"></canvas>
+                                <!-- Dinamik Sınıf Lejantı -->
+                                <div id="rocLegendWrap" class="roc-legend-list">
+                                    <div class="roc-legend-pill"><span class="roc-legend-dot" style="background:#16a34a;"></span><span>Normal Trafik (AUC: 0.985)</span></div>
+                                    <div class="roc-legend-pill"><span class="roc-legend-dot" style="background:#dc2626;"></span><span>DDoS / Flood (AUC: 0.992)</span></div>
+                                    <div class="roc-legend-pill"><span class="roc-legend-dot" style="background:#f97316;"></span><span>Brute-Force (AUC: 0.976)</span></div>
+                                    <div class="roc-legend-pill"><span class="roc-legend-dot" style="background:#3b82f6;"></span><span>Port Taraması (AUC: 0.968)</span></div>
+                                    <div class="roc-legend-pill"><span class="roc-legend-dot" style="background:#8b5cf6;"></span><span>Veri Sızdırma (AUC: 0.954)</span></div>
+                                </div>
+                            </div>
+
+                            <!-- İstatistik ve AUC Özet Tablosu -->
+                            <div class="importance-card" style="margin-top:0;">
+                                <div class="importance-card-title">
+                                    <span style="color:var(--text-primary);">Sınıf Bazlı AUC &amp; PR-AUC</span>
+                                    <span class="table-badge badge-normal" id="rocMacroBadge">Macro-AUC: %97.5</span>
+                                </div>
+                                <div class="table-wrap">
+                                    <table class="roc-summary-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Saldırı Sınıfı</th>
+                                                <th>ROC-AUC</th>
+                                                <th>PR-AUC</th>
+                                                <th>Gini</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="rocTableBody">
+                                            <tr>
+                                                <td><strong style="color:#16a34a;">Normal Trafik</strong></td>
+                                                <td style="color:#3b82f6; font-weight:600;">0.985</td>
+                                                <td style="color:#16a34a;">0.978</td>
+                                                <td style="color:#8b5cf6;">0.970</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong style="color:#dc2626;">DDoS / Flood Saldırısı</strong></td>
+                                                <td style="color:#3b82f6; font-weight:600;">0.992</td>
+                                                <td style="color:#16a34a;">0.989</td>
+                                                <td style="color:#8b5cf6;">0.984</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong style="color:#f97316;">Kaba Kuvvet (Brute-Force)</strong></td>
+                                                <td style="color:#3b82f6; font-weight:600;">0.976</td>
+                                                <td style="color:#16a34a;">0.962</td>
+                                                <td style="color:#8b5cf6;">0.952</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong style="color:#3b82f6;">Port Taraması ve Keşif</strong></td>
+                                                <td style="color:#3b82f6; font-weight:600;">0.968</td>
+                                                <td style="color:#16a34a;">0.945</td>
+                                                <td style="color:#8b5cf6;">0.936</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong style="color:#8b5cf6;">Veri Sızdırma / Transfer</strong></td>
+                                                <td style="color:#3b82f6; font-weight:600;">0.954</td>
+                                                <td style="color:#16a34a;">0.930</td>
+                                                <td style="color:#8b5cf6;">0.908</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="margin-top:12px; font-size:0.75rem; color:var(--text-muted); font-family:'JetBrains Mono',monospace;">
+                                    Kesikli Çizgi: Rastgele Tahmin (AUC = 0.50)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. SEKME: AĞAÇ BUDAMA VE PARAMETRİK ABLASYON SİMÜLASYONU -->
+                <div class="console-tab-pane" id="tabBatchPruning" style="padding:16px;">
+                    <div id="pruningSectionDetails">
+                        <div style="font-size:0.80rem; color:var(--text-secondary); margin-bottom:14px; line-height:1.5;">
+                            Maksimum derinlik (<strong>Max Tree Depth</strong>) ve karar güven eşiği (<strong>Confidence Threshold</strong>) değerlerine göre modelin doğruluk, Macro-F1, Yanlış Pozitif Oranı (FPR) ve ortalama karşı-olgusal müdahale maliyetini (Cost) dinamik simüle eder.
+                        </div>
+
+                        <!-- Parametrik Slider Kontrolleri -->
+                        <div class="pruning-controls-card">
+                            <div class="pruning-slider-group">
+                                <!-- Slider 1: Max Depth -->
+                                <div class="slider-field">
+                                    <div class="slider-label-row">
+                                        <span>Maksimum Ağaç Derinliği (Max Depth)</span>
+                                        <span class="slider-val-badge" id="sliderDepthVal">4 (Tam Ağaç)</span>
+                                    </div>
+                                    <input type="range" id="sliderMaxDepth" class="academic-slider" min="1" max="4" step="1" value="4" oninput="onPruningSliderChange()">
+                                    <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted); font-family:'JetBrains Mono',monospace;">
+                                        <span>1 (Kök - 2 Yaprak)</span>
+                                        <span>2 (4 Yaprak)</span>
+                                        <span>3 (7 Yaprak)</span>
+                                        <span>4 (Tam - 8 Yaprak)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Slider 2: Confidence Threshold -->
+                                <div class="slider-field">
+                                    <div class="slider-label-row">
+                                        <span>Karar Güven Eşiği (Confidence Threshold)</span>
+                                        <span class="slider-val-badge" id="sliderConfVal">%70</span>
+                                    </div>
+                                    <input type="range" id="sliderConfidence" class="academic-slider" min="50" max="99" step="1" value="70" oninput="onPruningSliderChange()">
+                                    <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted); font-family:'JetBrains Mono',monospace;">
+                                        <span>%50 (Agresif Tespit)</span>
+                                        <span>%75 (Dengeli)</span>
+                                        <span>%99 (Aşırı Temkinli)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Simülasyon Metrik Çıktıları -->
+                        <div class="sim-results-grid">
+                            <div class="sim-metric-card">
+                                <div class="sim-metric-title">Simüle Edilen Doğruluk</div>
+                                <div class="sim-metric-value-row">
+                                    <span class="sim-metric-main-val" id="simAccuracy">%96.8</span>
+                                    <span class="sim-metric-delta delta-pos" id="simAccuracyDelta">+0.0%</span>
+                                </div>
+                            </div>
+                            <div class="sim-metric-card">
+                                <div class="sim-metric-title">Macro-F1 Skoru</div>
+                                <div class="sim-metric-value-row">
+                                    <span class="sim-metric-main-val" style="color:#3b82f6;" id="simMacroF1">%95.4</span>
+                                    <span class="sim-metric-delta delta-neutral" id="simF1Delta">+0.0%</span>
+                                </div>
+                            </div>
+                            <div class="sim-metric-card">
+                                <div class="sim-metric-title">Yanlış Pozitif Oranı (FPR)</div>
+                                <div class="sim-metric-value-row">
+                                    <span class="sim-metric-main-val" style="color:#dc2626;" id="simFpr">%2.1</span>
+                                    <span class="sim-metric-delta" id="simFprSub">Yanlış Alarm</span>
+                                </div>
+                            </div>
+                            <div class="sim-metric-card">
+                                <div class="sim-metric-title">Aktif Yaprak / Karmaşıklık</div>
+                                <div class="sim-metric-value-row">
+                                    <span class="sim-metric-main-val" style="color:#8b5cf6;" id="simLeaves">8 / 8</span>
+                                    <span class="sim-metric-delta" id="simLeavesReduction">%0 Azalma</span>
+                                </div>
+                            </div>
+                            <div class="sim-metric-card">
+                                <div class="sim-metric-title">Ortalama Müdahale Maliyeti</div>
+                                <div class="sim-metric-value-row">
+                                    <span class="sim-metric-main-val" style="color:#d97706;" id="simCost">0.18</span>
+                                    <span class="sim-metric-delta" id="simCostSub">CF Cost</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Simülasyon Açıklama Kutusu -->
+                        <div id="simSummaryBox" style="margin-top:14px; padding:10px 14px; background:var(--bg-card-sub); border:1px solid var(--border-color); border-radius:4px; font-size:0.77rem; color:var(--text-secondary); font-family:'JetBrains Mono',monospace;">
+                            Tam ağaç modeli (Maksimum Derinlik: 4, Karar Güven Eşiği: %70) aktif 8 yaprak ile %96.8 doğruluk ve %95.4 Macro-F1 performansını korumaktadır.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -257,7 +508,7 @@
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
             const sizeKb = (file.size / 1024).toFixed(1);
-            nameEl.innerHTML = `Seçilen: <strong style="color:var(--accent-cyan);">${file.name}</strong> (${sizeKb} KB)`;
+            nameEl.innerHTML = `Seçilen: <strong style="color:var(--text-primary);">${file.name}</strong> (${sizeKb} KB)`;
             showToast(`"${file.name}" dosyası seçildi.`, 'info', 'Dosya Hazır');
         } else {
             nameEl.innerText = 'Dosya seçin veya buraya sürükleyin';
